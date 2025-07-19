@@ -1,0 +1,25 @@
+{
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {}
+  },
+  "installed_plugins": {
+    "cordova-plugin-geolocation": {
+      "GPS_REQUIRED": "true",
+      "PACKAGE_NAME": "com.guiakmymedio.org"
+    },
+    "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "com.guiakmymedio.org"
+    },
+    "cordova-plugin-wkwebviewxhrfix": {
+      "PACKAGE_NAME": "com.guiakmymedio.org"
+    },
+    "cordova-sqlite-storage": {
+      "PACKAGE_NAME": "com.guiakmymedio.org"
+    }
+  },
+  "dependent_plugins": {}
+}

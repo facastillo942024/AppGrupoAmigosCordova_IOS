@@ -1,0 +1,2063 @@
+﻿<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>GUÍA Km ½ RS</title>
+		<<meta http-equiv="Content-Security-Policy" content="default-src * 'self' data: gap: 'unsafe-inline' 'unsafe-eval'; style-src * 'self' 'unsafe-inline' 'unsafe-eval' gap:; script-src * 'self' 'unsafe-inline' 'unsafe-eval' gap:; frame-src *;">
+        <meta HTTP-EQUIV="Content-Type" content="text/html; charset=iso-8859-1" />
+		
+		<meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<meta name="format-detection" content="telephone=no" />
+	<meta name="msapplication-tap-highlight" content="no" />
+		<meta name="color-scheme" content="light dark">
+
+	<meta http-equiv='cache-control' content='no-cache'>
+	<meta http-equiv='expires' content='0'>
+	<meta http-equiv='pragma' content='no-cache'>
+	<meta http-equiv='Cache-Control' content='no-cache, mustrevalidate'>
+
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+
+        <script type="text/javascript" src="cordova.js"></script>
+		<link rel="stylesheet" href="jquery.mobile-1.4.2.min.css" />
+		<link rel="stylesheet" href="jquery-ui.css">
+		<script src="js/jquery1.12.4.min.js"></script>
+		<script src="jquery.mobile-1.4.2.min.js"></script>
+		<script src="jquery-ui.js"></script>
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<script src="js/bootstrap.min.js"></script>
+		<!-- Bootstrap 4 dependency -->
+		<script src="js/popper.min.js"></script>
+		<!-- ********************** -->
+		<!-- bootbox code -->
+		<script src="js/bootbox.min.js"></script>
+		<script src="js/bootbox.locales.min.js"></script>
+		<!-- end bootbox code -->
+		<script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyDNvbtb8n6qlZefgBn7fqWT-_CvXsDoCjk&sensor=false"></script><!-- &callback=initMap --> 																	    
+		<!-- 
+		AIzaSyB2o5-m_UGT3yYU8M5HJUpTW4FNKvga90s
+		<script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyAGckw_7fwEPATaRHBmFJksW5G0R38RLEI&callback=initMap"></script>-->
+		<script type="text/javascript">
+			//pgLoading
+			$("pgLoading").empty();
+			//var ruta = "https://www.fundaciongrupoamigos.com/webservice_app";
+			var ruta = "https://www.guiakmymedio.com.co/webservice_app";
+			var defaultPos = new google.maps.LatLng(4.710427, -74.070653);
+			var globalrespuesta = '';var latitud = ''; var longitud = '';var idioma_global = 'espanol';
+			//*******************************
+			//APLICAR ACCION AL BOTON DE RETROCESO DEL CEULUAR BOTON DE RETROCESO
+			function onLoad() {
+				/*
+				FUNCION QUE AL CARGAR LA APLICACION LLAMAMOS A LA FUNCION onDeviceReady
+				*/
+				document.addEventListener("deviceready", onDeviceReady, false);
+				//TRAER ESTABLECIMIENTOS ACTUALES -->
+				if (navigator && navigator.geolocation) {
+					function exito(pos) {
+						latitud = pos.coords.latitude;
+						longitud = pos.coords.longitude;
+						globalrespuesta = "(" + pos.coords.latitude + "," + pos.coords.longitude + ")";
+						traerestablecimientos('');
+					}
+					function falla(error) {
+					//si falla mostrar mapa en posicion por defecto
+						latitud = 4.710427;
+						longitud = -74.070653;
+						globalrespuesta = "(4.710427,-74.070653)";
+						traerestablecimientos('');
+						
+					}
+					//maximumAge- Guarda la posicion por 5 minutos 
+					//enableHighAccuracy: Se tratan de obtener los mejores resultados posibles del GPS
+					//timeout: el tiempo maximo que se espera para obtener la posicion en este caso 5 segundos
+					var options = {maximumAge: 5000, enableHighAccuracy:true, timeout: 5000};
+					navigator.geolocation.getCurrentPosition(exito, falla, options );
+				}
+				else {
+					latitud = 4.710427;
+					longitud = -74.070653;
+					globalrespuesta = "(4.710427,-74.070653)";
+					traerestablecimientos('');
+				}
+			}
+
+			// device APIs are available
+			//
+			function onDeviceReady() {
+				/*
+				ESTA FUNCION AL SER LLAMADA, ASIGNAMOS A LOS BOTONES DE RETROCESO LA FUNCION onBackKeyDown
+				*/
+				// Register the event listener
+				document.addEventListener("backbutton", onBackKeyDown, false);
+			}
+			function onBackKeyDown() {//FUNCION PARA BOTON DE RETROCESO DEL CELULAR
+				navigator.app.backHistory();
+				if($.mobile.activePage.is('#pgLoading')){
+				    navigator.app.exitApp();
+				}else{
+					if($.mobile.activePage.is('#pgRegistroInicial')){
+						navigator.app.exitApp();
+					}
+				}
+			}
+			function obtener_latitudlongitud(){
+				if (navigator && navigator.geolocation) {
+					function exito(pos) {
+						latitud = pos.coords.latitude;
+						longitud = pos.coords.longitude;
+						globalrespuesta = "(" + pos.coords.latitude + "," + pos.coords.longitude + ")";
+					}
+					function falla(error) {
+					//si falla mostrar mapa en posicion por defecto
+						latitud = 4.710427;
+						longitud = -74.070653;
+						globalrespuesta = "(4.710427,-74.070653)";
+						
+					}
+					//maximumAge- Guarda la posicion por 5 minutos 
+					//enableHighAccuracy: Se tratan de obtener los mejores resultados posibles del GPS
+					//timeout: el tiempo maximo que se espera para obtener la posicion en este caso 5 segundos
+					var options = {maximumAge: 5000, enableHighAccuracy:true, timeout: 5000};
+					navigator.geolocation.getCurrentPosition(exito, falla, options );
+				}
+				else {
+					latitud = 4.710427;
+					longitud = -74.070653;
+					globalrespuesta = "(4.710427,-74.070653)";
+				}
+			}
+			function omitirregistro(){
+				//window.localStorage.setItem("registroinicial", "registrado");
+				onLoad();
+			}
+			function enviaregistroinicial(){
+				var nombre_registroinicial = document.getElementById("nombre_registroinicial").value;
+				var apellido_registroinicial = document.getElementById("apellido_registroinicial").value;
+				var correo_registroinicial = document.getElementById("correo_registroinicial").value;
+				var comoseentero_registroinicial = document.getElementById("comoseentero_registroinicial").value;
+				/*var profesion_registroinicial = document.getElementById("profesion_registroinicial").value;
+				
+				var genero_registroinicial = document.getElementById("genero_registroinicial").value;
+				var fechanacimiento_registroinicial = document.getElementById("fechanacimiento_registroinicial").value;
+				var pais_registroinicial = document.getElementById("pais_registroinicial").value;
+				var departamento_registroinicial = document.getElementById("departamento_registroinicial").value;
+				var ciudad_registroinicial = document.getElementById("ciudad_registroinicial").value;*/
+				if(nombre_registroinicial == '' || apellido_registroinicial == '' || correo_registroinicial == '' || comoseentero_registroinicial == ''){// || profesion_registroinicial == '' || genero_registroinicial == '' || fechanacimiento_registroinicial == '' || pais_registroinicial == '' || departamento_registroinicial == '' || ciudad_registroinicial == ''
+					alert("Debes llenar todos lo scampos, verificalos");
+					document.getElementById("resultado_registroinicial").innerHTML='';
+				}else{
+					//checkaceptoterminos1
+					if(document.getElementById("checkaceptoterminos1").checked == true){
+						document.getElementById("resultado_registroinicial").innerHTML='<center><font color="#848484"><img src="img/cargando.gif" style="height:50px;width:50px;"><br>Espera un momento, estamos procesando la información para ti....</font></center>';
+						//alert("NO HA PASADO JAJA");
+						//xmlhttp.open("GET",ruta + "/webservice_new.php?opc=10&idioma_global=" + idioma_global + "&nombre_registroinicial=" + nombre_registroinicial + "&apellido_registroinicial=" + apellido_registroinicial + "&profesion_registroinicial=" + profesion_registroinicial + "&correo_registroinicial=" + correo_registroinicial + "&genero_registroinicial=" + genero_registroinicial + "&fechanacimiento_registroinicial=" + fechanacimiento_registroinicial + "&pais_registroinicial=" + pais_registroinicial + "&departamento_registroinicial=" + departamento_registroinicial + "&ciudad_registroinicial=" + ciudad_registroinicial,false);
+						
+						$.ajax({
+							type:"GET",
+							url:ruta + "/webservice_new.php?opc=10&idioma_global=" + idioma_global + "&nombre_registroinicial=" + nombre_registroinicial + "&apellido_registroinicial=" + apellido_registroinicial + "&correo_registroinicial=" + correo_registroinicial + "&comoseentero_registroinicial=" + comoseentero_registroinicial,
+							success: function(data){
+								alert("Gracias por tu registro, bienvenid@");
+								window.localStorage.setItem("registroinicial", "registrado");
+								onLoad();
+							},
+							error: function(){
+								alert("ERROR: Verifica tu conexiòn a internet");
+							}
+						});
+
+					}else{
+						alert("Debes aceptar terminos y condiciones.");
+					}
+				}
+			}
+			function traerestablecimientos(categoria){
+				var eljson;
+				var cadenaso = '';
+				document.getElementById("tituloprincipal").innerHTML = categoria;
+				location.href = "#pgPrincipal";
+				//MOSTRAR MENSAJE DE ESPERA EN LA DIVISION
+				if(idioma_global == 'espanol'){
+					if(categoria == ''){document.getElementById("tituloprincipal").innerHTML = 'Establecimientos';}
+					document.getElementById("opciones").innerHTML='<center><font color="#848484"><img src="img/cargando.gif" style="height:50px;width:50px;"><br>Espera un momento, estamos consultando los establecimientos cercanos a ti....</font></center>';
+				}
+				if(idioma_global == 'ingles'){
+					if(categoria == ''){document.getElementById("tituloprincipal").innerHTML = 'Establishments';}
+					document.getElementById("opciones").innerHTML='<center><font color="#848484"><img src="img/cargando.gif" style="height:50px;width:50px;"><br>Please wait, we are consulting the establishments near you....</font></center>';
+				}
+				if(idioma_global == 'italiano'){
+					if(categoria == ''){document.getElementById("tituloprincipal").innerHTML = 'Stabilimenti';}
+					document.getElementById("opciones").innerHTML='<center><font color="#848484"><img src="img/cargando.gif" style="height:50px;width:50px;"><br>Per favore aspetta, stiamo consultando gli stabilimenti vicino a te....</font></center>';
+				}
+				//****************************************
+				document.getElementById("map-canvas").innerHTML = '';
+				document.getElementById("detalle_establecimiento").innerHTML = '';
+				setTimeout(function()
+				{
+
+					$.ajax({
+						type:"GET",
+						url:ruta + "/webservice_new.php?opc=2&lat=" + latitud + "&lon=" + longitud + "&categoria=" + categoria + "&favoritos=" + window.localStorage.getItem("favoritos"),
+						success: function(data){
+							if(data != ''){
+								document.getElementById("opciones").innerHTML = data;// + ' <br> LAT: ' + latitud + ", LON: " + longitud
+							}else{
+								//MOSTRAR MENSAJE DE ESPERA EN LA DIVISION
+								if(idioma_global == 'espanol'){
+									document.getElementById("opciones").innerHTML = '<center><table><tr><td align="center"><img src="img/app_logo.png" width="40" height="40"><br>No Hay Establecimientos</td></tr></table></center>';
+								}
+								if(idioma_global == 'ingles'){
+									document.getElementById("opciones").innerHTML = '<center><table><tr><td align="center"><img src="img/app_logo.png" width="40" height="40"><br>No Establishments</td></tr></table></center>';
+								}
+								if(idioma_global == 'italiano'){
+									document.getElementById("opciones").innerHTML = '<center><table><tr><td align="center"><img src="img/app_logo.png" width="40" height="40"><br>Nessun stabilimento</td></tr></table></center>';
+								}
+								//****************************************
+							}
+						},
+						error: function(){
+							alert("ERROR: Verifica tu conexiòn a internet");
+						}
+					});
+
+				}, 500);
+			}
+			function guardar_registro(){
+				var nombrelocal_registro = document.getElementById("nombrelocal_registro").value;
+				var telfijo_registro = document.getElementById("telfijo_registro").value;
+				var telmovil_registro = document.getElementById("telmovil_registro").value;
+				var correo_registro = document.getElementById("correo_registro").value;
+				var categoria_registro = document.getElementById("categoria_registro").value;
+				var ciudad_registro = document.getElementById("ciudad_registro").value;
+				var localidad_registro = document.getElementById("localidad_registro").value;
+				var direccion_registro = document.getElementById("direccion_registro").value;
+				var paginaweb_registro = document.getElementById("paginaweb_registro").value;
+				if(nombrelocal_registro != '' && telfijo_registro != '' && telmovil_registro != '' && correo_registro != '' && categoria_registro != '' && ciudad_registro != '' && localidad_registro != '' && direccion_registro != '' && paginaweb_registro != ''){
+					document.getElementById("resulatado_registro").innerHTML = '<center><font color="#848484"><img src="img/cargando.gif" style="height:50px;width:50px;"><br>Espera un momento, estamos enviando tu petición</font></center>';
+					setTimeout(function()
+					{
+						
+
+						$.ajax({
+							type:"GET",
+							url:ruta + "/webservice_new.php?opc=2&lat=" + latitud + "&lon=" + longitud + "&categoria=" + categoria + "&favoritos=" + window.localStorage.getItem("favoritos"),
+							success: function(data){
+								if(data == 'OK'){
+									//MOSTRAR MENSAJE SEGUN IDIOMA
+									if(idioma_global == 'espanol'){
+										alert('Tu establecimiento ha sido guardado correctamente');
+									}
+									if(idioma_global == 'ingles'){
+										alert('Your establishment has been saved correctly');
+									}
+									if(idioma_global == 'italiano'){
+										alert('Il tuo stabilimento è stato salvato correttamente');
+									}
+									//****************************************
+									document.getElementById("nombrelocal_registro").value = '';
+									document.getElementById("telfijo_registro").value = '';
+									document.getElementById("telmovil_registro").value = '';
+									document.getElementById("correo_registro").value = '';
+									document.getElementById("direccion_registro").value = '';
+									document.getElementById("paginaweb_registro").value = '';
+									document.getElementById("resulatado_registro").innerHTML = '';
+									traerestablecimientos('');
+								}else{
+									document.getElementById("resulatado_registro").innerHTML = data;
+								}
+							},
+							error: function(){
+								alert("ERROR: Verifica tu conexiòn a internet");
+							}
+						});
+
+					}, 500);
+				}else{
+					alert("No puede haber ningun campo vacio, revisalos");
+				}
+			}
+			function iradetalle(tpc_codigo_establecimiento, redireccion){//redireccion 0=NO REDIRIJA 1=SI REDIRIJA
+				var titulo_marcador = '';
+				document.getElementById("map-canvas").innerHTML = '';
+				if(redireccion == 1){
+					location.href = "#pgDetalle";
+				}
+				//MOSTRAR MENSAJE SEGUN IDIOMA
+				if(idioma_global == 'espanol'){
+					document.getElementById("detalle_establecimiento").innerHTML = '<center><font color="#848484"><img src="img/cargando.gif" style="height:50px;width:50px;"><br>Espera un momento, estamos consultando el detalle del establecimiento</font></center>';
+					titulo_marcador = 'Establecimiento Aquí';
+				}
+				if(idioma_global == 'ingles'){
+					document.getElementById("detalle_establecimiento").innerHTML = '<center><font color="#848484"><img src="img/cargando.gif" style="height:50px;width:50px;"><br>Please wait, we are consulting the details of the establishment</font></center>';
+					titulo_marcador = 'Establishment Here';
+				}
+				if(idioma_global == 'italiano'){
+					document.getElementById("detalle_establecimiento").innerHTML = '<center><font color="#848484"><img src="img/cargando.gif" style="height:50px;width:50px;"><br>Per favore aspetta, stiamo consultando i dettagli dello stabilimento</font></center>';
+					titulo_marcador = 'Istituzione qui';
+				}
+				//****************************************
+				setTimeout(function()
+				{
+					var favoritosvalor = window.localStorage.getItem("favoritos");
+
+
+					$.ajax({
+						type:"GET",
+						url:ruta + "/webservice_new.php?opc=3&lat=" + latitud + "&lon=" + longitud + "&tpc_codigo_establecimiento=" + tpc_codigo_establecimiento + "&idioma_global=" + idioma_global + "&favoritosvalor=" + favoritosvalor,
+						success: function(data){
+							document.getElementById("detalle_establecimiento").innerHTML = data;
+							//AVERIGUAMOS LATITUD Y LONGITUD DEL ESTABLECIMIENTO
+							var latitud_detalle = 4.710427, longitud_detalle = -74.070653;
+
+							$.ajax({
+								type:"GET",
+								url:ruta + "/webservice_new.php?opc=5&tpc_codigo_establecimiento=" + tpc_codigo_establecimiento,
+								success: function(data1){
+									var cadena_det = data1;
+									cadena_det = cadena_det.split(";");
+									latitud_detalle = cadena_det[0];
+									longitud_detalle = cadena_det[1];
+								}
+							});
+
+
+							var pos_detalle = new google.maps.LatLng(latitud_detalle, longitud_detalle);
+							//***************************************************
+							var myOptions = {
+							zoom: 16,
+							center: pos_detalle,
+							disableDefaultUI: true,
+							mapTypeId: google.maps.MapTypeId.ROADMAP};
+							var map = new google.maps.Map(document.getElementById("map-detalle"), myOptions);
+							var infowindow = new google.maps.InfoWindow({
+							  position: pos_detalle,
+							  content: '<p>'+titulo_marcador+'</p>'+pos_detalle
+							  });
+							var marker = new google.maps.Marker({
+								position: pos_detalle,
+								map: map,
+								title: titulo_marcador,
+								animation: google.maps.Animation.DROP
+							});
+							google.maps.event.addListener(marker, 'click', function() {infowindow.open(map,marker);});
+							document.getElementById('opcionesdelmapa').innerHTML='<table width="80%" align="right"><tr><td align="right"><button style="background-color: transparent" onclick="vermapadetalle(' + latitud_detalle + ', ' + longitud_detalle + ', 0)"><font size="5">Ver</font></button><button style="background-color: transparent" onclick="vermapadetalle(' + latitud_detalle + ', ' + longitud_detalle + ', 1)"><font size="5">Seguir Ruta</font></button></td></tr></table>';
+							
+						},
+						error: function(){
+							alert("ERROR: Verifica tu conexiòn a internet");
+						}
+					});
+
+
+				}, 500);
+				
+			}
+			function irabuscar(){
+				document.getElementById("divbusqueda").innerHTML='';
+				document.getElementById("map-canvas").innerHTML = '';
+				document.getElementById("detalle_establecimiento").innerHTML = '';
+				location.href="#pgBuscar";
+				document.getElementById("txt_busqueda").value='';
+				document.getElementById("txt_busqueda").focus();
+			}
+			function traerbusqueda(){
+				obtener_latitudlongitud();
+				//MOSTRAR MENSAJE SEGUN IDIOMA
+				if(idioma_global == 'espanol'){
+					document.getElementById("divbusqueda").innerHTML='<center><font color="#848484"><img src="img/cargando.gif" style="height:50px;width:50px;"><br>Espera un momento, estamos consultando los establecimientos de tu busqueda....</font></center>';
+				}
+				if(idioma_global == 'ingles'){
+					document.getElementById("divbusqueda").innerHTML='<center><font color="#848484"><img src="img/cargando.gif" style="height:50px;width:50px;"><br>Please wait, we are consulting the establishments of your search....</font></center>';
+				}
+				if(idioma_global == 'italiano'){
+					document.getElementById("divbusqueda").innerHTML='<center><font color="#848484"><img src="img/cargando.gif" style="height:50px;width:50px;"><br>Per favore aspetta, stiamo consultando gli stabilimenti della tua ricerca....</font></center>';
+				}
+				//****************************************
+				setTimeout(function()
+				{
+					var txt_busqueda = document.getElementById("txt_busqueda").value;
+					$.ajax({
+						type:"GET",
+						url:ruta + "/webservice_new.php?opc=4&lat=" + latitud + "&lon=" + longitud + "&txt_busqueda=" + txt_busqueda,
+						success: function(data1){
+							document.getElementById("divbusqueda").innerHTML = data1;
+						}
+					});
+				}, 500);
+			}
+			function enviar_donacion(){
+				//MOSTRAR MENSAJE SEGUN IDIOMA
+				if(idioma_global == 'espanol'){
+					document.getElementById("divdonacionesresult").innerHTML='<center><font color="#848484"><img src="img/cargando.gif" style="height:50px;width:50px;"><br>Por favor espera, estamos procesando tu solicitud....</font></center>';
+				}
+				if(idioma_global == 'ingles'){
+					document.getElementById("divdonacionesresult").innerHTML='<center><font color="#848484"><img src="img/cargando.gif" style="height:50px;width:50px;"><br>Please wait, we are processing your request....</font></center>';
+				}
+				if(idioma_global == 'italiano'){
+					document.getElementById("divdonacionesresult").innerHTML='<center><font color="#848484"><img src="img/cargando.gif" style="height:50px;width:50px;"><br>Per favore aspetta, tiamo elaborando la tua richiesta....</font></center>';
+				}
+				//****************************************
+				setTimeout(function()
+				{
+					var valoradonar = document.getElementById("valoradonar").value;
+					var txt_documento_donaciones = document.getElementById("txt_documento_donaciones").value;
+					var txt_email_donaciones = document.getElementById("txt_email_donaciones").value;
+					var currency = document.getElementById("currency").value;
+					var merchantId = document.getElementById("merchantId").value;
+					if(valoradonar == '' || txt_documento_donaciones == '' || txt_email_donaciones == ''){
+						alert("Debes llenar todos los campos");
+						document.getElementById("divdonacionesresult").innerHTML='';
+						return;
+					}
+					if(valoradonar == 'otro'){
+						if(document.getElementById("txt_otrovalor_donaciones").value == ''){
+							alert("Ingresa el valor que deseas donar");
+							document.getElementById("divdonacionesresult").innerHTML='';
+							document.getElementById("txt_otrovalor_donaciones").focus();
+							return;
+						}
+						valoradonar = document.getElementById("txt_otrovalor_donaciones").value;
+					}
+
+
+					$.ajax({
+						type:"GET",
+						url:ruta + "/webservice_new.php?opc=1&valoradonar=" + valoradonar + "&txt_documento_donaciones=" + txt_documento_donaciones + "&txt_email_donaciones=" + txt_email_donaciones + "&currency=" + currency + "&merchantId=" + merchantId,
+						success: function(data1){
+							var respuesta = data1.split(";;;");
+							document.getElementById("amount").value=valoradonar;
+							document.getElementById("buyerEmail").value=txt_email_donaciones;
+							document.getElementById("referenceCode").value=respuesta[0];
+							document.getElementById("signature").value=respuesta[1];
+							porfin.submit();
+							document.getElementById("valoradonar").value = '';
+							document.getElementById("txt_documento_donaciones").value = '';
+							document.getElementById("txt_email_donaciones").value = '';
+							document.getElementById("divdonacionesresult").innerHTML='';
+						},
+						error: function(){
+							alert("ERROR: Verifica tu conexion a internet");
+						}
+					});
+				}, 1000);
+			}
+			//MAPA ***************
+			function ejecutar_mapa(){
+				location.href="#pgMapa";
+				document.getElementById("detalle_establecimiento").innerHTML = '';
+				//MOSTRAR MENSAJE SEGUN IDIOMA
+				if(idioma_global == 'espanol'){
+					document.getElementById("map-canvas").innerHTML='<center><font color="#848484"><img src="img/cargando.gif" style="height:50px;width:50px;"><br>Espera un momento, estamos cargando el mapa....</font></center>';
+				}
+				if(idioma_global == 'ingles'){
+					document.getElementById("map-canvas").innerHTML='<center><font color="#848484"><img src="img/cargando.gif" style="height:50px;width:50px;"><br>Please wait, we are loading the map....</font></center>';
+				}
+				if(idioma_global == 'italiano'){
+					document.getElementById("map-canvas").innerHTML='<center><font color="#848484"><img src="img/cargando.gif" style="height:50px;width:50px;"><br>Per favore aspetta, stiamo caricando la mappa....</font></center>';
+				}
+				//****************************************
+				setTimeout(function()
+				{
+					if (navigator && navigator.geolocation) {
+						function exito(pos) {
+							MuestraMapa(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
+						}
+						function falla(error) {
+						//si falla mostrar mapa en posicion por defecto
+							alert("<font color='black'>Error en servicio Geolocalizador, CODIGO ERROR: " + error.code + "\n" + " MENSAJE: " + error.message + "\n" + " Verifica que tu GPS este activado</font>");
+							//alert("Error en servicio Geolocalizador, CODIGO ERROR: " + error.code + "\n" + " MENSAJE: " + error.message + "\n" + " Verifica que tu GPS este activado");
+							MuestraMapa(defaultPos); 
+						}
+						//maximumAge- Guarda la posicion por 5 minutos 
+						//enableHighAccuracy: Se tratan de obtener los mejores resultados posibles del GPS
+						//timeout: el tiempo maximo que se espera para obtener la posicion en este caso 5 segundos
+						var options = {maximumAge: 5000, enableHighAccuracy:true, timeout: 5000};
+						navigator.geolocation.getCurrentPosition(exito, falla, options);
+					}
+					else {
+						MuestraMapa(defaultPos);  // No soporta geolocalizacion y dibuja el mapa en posicion Default
+					}
+				}, 500);
+			}
+			//MOSTRAR DETALLE DE POSICION EN VER DETALLE AL FINAL EN EL MAPA AL DAR CLICK EN VERDETALLE
+			function vermapadetalle(latitud, longitud, opcion){//OPCION=0 -> SOLO VER POSICION, OPCION=1 -> TRAZAR RUTA DE ORGEN A DESTINO
+				var latlng = new google.maps.LatLng(latitud, longitud);
+				//MOSTRAR MENSAJE SEGUN IDIOMA
+				if(idioma_global == 'espanol'){
+					var mensaje1 = 'Esta es la posicion del establecimiento';
+					var mensaje2 = 'Establecimiento Aqui';
+				}
+				if(idioma_global == 'ingles'){
+					var mensaje1 = 'This is the position of the establishment';
+					var mensaje2 = 'Establishment Here';
+				}
+				if(idioma_global == 'italiano'){
+					var mensaje1 = 'Questa è la posizione dello stabilimento';
+					var mensaje2 = 'Istituzione qui';
+				}
+				//****************************************
+				if(opcion == 0){//SOLO MOSTRAR POSICION DEL ESTABLECIMIENTO
+					//*************************************************
+					var myOptions = {
+					zoom: 18,
+					center: latlng,
+					disableDefaultUI: true,
+					mapTypeId: google.maps.MapTypeId.ROADMAP};
+					var map = new google.maps.Map(document.getElementById("map-canvas-detalle"), myOptions);
+					var infowindow = new google.maps.InfoWindow({
+							  position: latlng,
+							  content: '<p>'+mensaje1+'</p>'+latlng
+							  });
+					var marker = new google.maps.Marker({
+						position: latlng,
+						map: map,
+						title: mensaje2,
+						animation: google.maps.Animation.DROP
+					});
+					google.maps.event.addListener(marker, 'click', function() {infowindow.open(map,marker);});
+					location.href='#pgMapaDelDetalle';
+				}
+				if(opcion == 1){//VER RUTA HACIA EL ESTABLECIMIENTO
+					if (navigator && navigator.geolocation) {//MI POSICION
+						function exito(pos) {
+							window.open("https://maps.google.com/maps?saddr=" + pos.coords.latitude + "," + pos.coords.longitude + "&daddr=" + latitud + "," + longitud);
+						}
+						function falla(error) {
+						//si falla mostrar mapa en posicion por defecto
+							alert("<font color='black'>Error en servicio Geolocalizador, CODIGO ERROR: " + error.code + "\n" + " MENSAJE: " + error.message + "\n" + " Verifica que tu GPS este activado</font>");
+						}
+						//maximumAge- Guarda la posicion por 5 minutos 
+						//enableHighAccuracy: Se tratan de obtener los mejores resultados posibles del GPS
+						//timeout: el tiempo maximo que se espera para obtener la posicion en este caso 5 segundos
+						var options = {maximumAge: 5000, enableHighAccuracy:true, timeout: 5000};
+						navigator.geolocation.getCurrentPosition(exito, falla, options);
+					}
+				}
+			}
+			//****************************************************************************************
+			//FUNCION DIBUJAR MAPA
+			function MuestraMapa(latlng) {
+				//MOSTRAR MENSAJE SEGUN IDIOMA
+				if(idioma_global == 'espanol'){
+					var mensaje1 = 'Esta es tu posicion actual';
+					var mensaje2 = 'Tu Estas Aqui';
+				}
+				if(idioma_global == 'ingles'){
+					var mensaje1 = 'This is your current position.';
+					var mensaje2 = 'You are here';
+				}
+				if(idioma_global == 'italiano'){
+					var mensaje1 = 'Questa è la tua posizione attuale.';
+					var mensaje2 = 'Sei qui';
+				}
+				//****************************************
+				/*var geocoder = new google.maps.Geocoder();
+				geocoder.geocode({ 'latLng': latlng },processGeocoder);*/
+				var myOptions = {
+				zoom: 18,
+				center: latlng,
+				disableDefaultUI: true,
+				mapTypeId: google.maps.MapTypeId.ROADMAP};
+				globalrespuesta = latlng + '';
+				var map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
+				//*************************************************
+				//A{ADIR MARCADORES DE LA POSICION ACTUAL Y DE LOS ESTABLECIMIENTOS-->
+				var infowindow = new google.maps.InfoWindow({
+						  position: latlng,
+						  content: '<p>'+mensaje1+'</p>'+latlng
+						  });
+				var marker = new google.maps.Marker({
+					position: latlng,
+					map: map,
+					title: mensaje2,
+					animation: google.maps.Animation.DROP
+				});
+				google.maps.event.addListener(marker, 'click', function() {infowindow.open(map,marker);});
+				//HACER PETICION ASINCRONICA PARA TRAER ESTABLECIMIENTOS
+				var partir_posicion = latlng.toString();
+				partir_posicion = partir_posicion.replace("(", "");
+				partir_posicion = partir_posicion.replace(")", "");
+				partir_posicion = partir_posicion.split(", ");
+
+				$.ajax({
+					type:"GET",
+					url:ruta + "/webservice_new.php?opc=6&lat=" + partir_posicion[0] + "&lon=" + partir_posicion[1],
+					success: function(data){
+						var resultado = data.toString();
+						resultado = resultado.split(";");
+						for (var i = 0; i < resultado.length; i++) {
+							var cadena_posicion = resultado[i];
+							cadena_posicion = cadena_posicion.split(",");
+							var posicionado_final = new google.maps.LatLng(cadena_posicion[0], cadena_posicion[1]);
+							let icon = {
+								url: cadena_posicion[3], // url
+								scaledSize: new google.maps.Size(50, 50), // scaled size
+								origin: new google.maps.Point(0,0), // origin
+								anchor: new google.maps.Point(0, 0) // anchor
+							};
+							let ventana = new google.maps.InfoWindow({
+									  position: posicionado_final,
+									  content: '<p>' + cadena_posicion[2] + '</p>'+cadena_posicion[4]
+									  });
+							let marcador = new google.maps.Marker({
+								position: posicionado_final,
+								map: map,
+								title: 'Estab1',
+								animation: google.maps.Animation.DROP,
+								icon: icon
+							});
+							google.maps.event.addListener(marcador, 'click', function() {ventana.open(map,marcador);});
+						}
+						document.getElementById("divbusqueda").innerHTML = data;
+					},
+					error: function(){
+						alert("ERROR: Verifica tu conexion a internet");
+					}
+				});
+				//**********************************************************************
+			}// Fin muestra mapa
+			function processGeocoder(results, status){ //FUNCION PARA SABER DIRECCION DE UBICACION
+				if (status == google.maps.GeocoderStatus.OK) {
+					if (results[0]) {
+						var dir_form = results[0].formatted_address; //TOMAR DIRECCION FORMATEADA Y SACAR PAIS Y CIUDAD
+						var res_f = dir_form.split(",");//DIVIDIR DIRECCION
+						res_f[0] = res_f[0].replace("#", "N.");//REEMPLAZAR EL NUMERAL POR N. PARA QUE NO PONGA PROBLEMA EL GET AL DB.PHP
+						ciudad = res_f[1];
+						pais = res_f[2];
+						alert(res_f[0]);
+					} else {
+						error('Google no retorno resultado alguno.');
+					}
+				}else{
+					error("Geocoding fallo debido a : " + status);
+				}
+			}//FIN processGeocoder
+			//********************
+			function imgpromocion(rutapromo, tpc_id_documento){
+				var calificacionesvalor = window.localStorage.getItem("cadena_calificaciones");
+				window.localStorage.removeItem("cadena_calificaciones");
+				if(calificacionesvalor != '' && calificacionesvalor != null){
+					var arrcalificacionesvalor = calificacionesvalor.split(",");var cuenta_c = 0;
+					for(var i = 0; i < arrcalificacionesvalor.length; i++){
+						if(tpc_id_documento == arrcalificacionesvalor[i]){
+							cuenta_c = 1;
+							i = arrcalificacionesvalor.length;
+						}
+					}
+					window.localStorage.setItem("cadena_calificaciones", calificacionesvalor);
+					if(cuenta_c == 0){//SI LA PROMOCION NO HA SIDO CALIFICADA POR EL CLIENTE ACTUAL SE MUESTRA EL PANEL DE CALIFICACION
+						document.getElementById("tpc_calificacion_calificacion").selectedIndex = '0';
+						document.getElementById("tpc_documento_calificacion").value=tpc_id_documento;
+						document.getElementById("tabla_calificacion").style.display = 'block';
+					}
+				}else{
+					document.getElementById("tpc_calificacion_calificacion").selectedIndex = '0';
+					document.getElementById("tpc_documento_calificacion").value=tpc_id_documento;
+					document.getElementById("tabla_calificacion").style.display = 'block';
+				}
+				document.getElementById("imagenpromoclick").src = rutapromo;
+				location.href='#pgImagenPromo';
+			}
+			//enviar_calificacion() tpc_calificacion_calificacion tpc_documento_calificacion
+			function enviar_calificacion(){
+				var tpc_calificacion_calificacion = document.getElementById("tpc_calificacion_calificacion").value;
+				var tpc_documento_calificacion = document.getElementById("tpc_documento_calificacion").value;
+				if(tpc_calificacion_calificacion != ''){
+					setTimeout(function()
+					{
+						document.getElementById("resp_calificacion").innerHTML = '<center><img src="img/cargando.gif" style="height:50px;width:50px;"></center>';
+						
+						$.ajax({
+							type:"GET",
+							url:ruta + "/webservice_new.php?opc=13&tpc_calificacion_calificacion=" + tpc_calificacion_calificacion + "&tpc_documento_calificacion=" + tpc_documento_calificacion,
+							success: function(data){
+								alert("Calificación Guardada Correctamente");
+								document.getElementById("tabla_calificacion").style.display = 'none';
+								document.getElementById("tpc_calificacion_calificacion").selectedIndex = '0';
+								document.getElementById("tpc_documento_calificacion").value="";
+								var calificacionesvalor = window.localStorage.getItem("cadena_calificaciones");
+								window.localStorage.removeItem("cadena_calificaciones");
+								if(calificacionesvalor != '' && calificacionesvalor != null){
+									var cadenacfinal = calificacionesvalor + "," + tpc_documento_calificacion;
+									window.localStorage.setItem("cadena_calificaciones", cadenacfinal);
+								}else{
+									window.localStorage.setItem("cadena_calificaciones", tpc_documento_calificacion);
+								}
+							},
+							error: function(){
+								alert("ERROR: Verifica tu conexion a internet");
+							}
+						});
+						document.getElementById("resp_calificacion").innerHTML = '';
+					}, 500);
+				}else{
+					alert("Debes seleccionar una calificación para la promoción");
+				}
+			}
+			function agregarfavoritos(tpc_codigo_establecimiento){
+				var favoritosvalor = window.localStorage.getItem("favoritos");
+				window.localStorage.removeItem("favoritos");
+				if(favoritosvalor == '' || favoritosvalor == null){
+					window.localStorage.setItem("favoritos", tpc_codigo_establecimiento);
+				}else{
+					var arrfavoritos = favoritosvalor.split(",");var cuenta = 0;
+					for(var i = 0; i < arrfavoritos.length; i++){
+						if(tpc_codigo_establecimiento == arrfavoritos[i]){
+							cuenta = 1;
+							i = arrfavoritos.length;
+						}
+					}
+					if(cuenta == 0){//SI NO EXISTE EL ID, SE CREA Y SE CAMBIA DE VALOR AL LABEL elfavoritoslabel
+						favoritosvalor = favoritosvalor + ',' + tpc_codigo_establecimiento;
+					}else{//SI YA EXISTE EL ID ES PORQUE SE DESEA QUITAR, SE ELIMINA Y SE CAMBIA DE VALOR AL LABEL elfavoritoslabel
+						favoritosvalor = favoritosvalor.replace(tpc_codigo_establecimiento, '');
+						favoritosvalor = favoritosvalor.replace(',,', ',');
+					}
+					window.localStorage.setItem("favoritos", favoritosvalor);
+				}
+				iradetalle(tpc_codigo_establecimiento, 0);
+			}
+			//CAMBIAR IDIOMA DEPENDIENDO EL PARAMETRO RECIBIDO
+			function cambiar_idioma(idioma){
+				idioma_global = idioma;
+				if(idioma == 'espanol'){
+					document.getElementById("registrarmilocal1").innerHTML = 'Reg. Establecimiento';
+					document.getElementById("establecimientos1").innerHTML = 'Establecimientos';
+					document.getElementById("favoritos1").innerHTML = 'Favoritos';
+					document.getElementById("fundacionesaliadas1").innerHTML = 'Fundaciones Aliadas';
+					//document.getElementById("appaliadas1").innerHTML = 'Apps Aliadas';
+					document.getElementById("aliadosestrategicos1").innerHTML = 'Aliados Estrategicos';
+					//document.getElementById("eventos1").innerHTML = 'Eventos';
+					document.getElementById("animalesyagricultura1").innerHTML = 'Animales y Agricultura';
+					document.getElementById("autopartes1").innerHTML = 'Autopartes';
+					document.getElementById("bancos1").innerHTML = 'Co. Bancarios';
+					document.getElementById("baresydiscotecas1").innerHTML = 'Bares y Discotecas';
+					document.getElementById("bellezayestetica1").innerHTML = 'Belleza y Estetica';
+					document.getElementById("bombasdegasolina1").innerHTML = 'Bombas de Gasolina';
+					document.getElementById("centroscomerciales1").innerHTML = 'Centros Comerciales';
+					document.getElementById("diversionyaventura1").innerHTML = 'Diversion y Aventura';
+					document.getElementById("educacion1").innerHTML = 'Educación';
+					document.getElementById("elementosdeportivos1").innerHTML = 'Elementos Deportivos';
+					document.getElementById("empleo1").innerHTML = 'Empleo';
+					document.getElementById("farmacias1").innerHTML = 'Farmacias';
+					document.getElementById("gastronomia1").innerHTML = 'Gastronomia';
+					document.getElementById("girosyentregas1").innerHTML = 'Giros y Entregas';
+					document.getElementById("productosyhogar1").innerHTML = 'Productos y Hogar';
+					document.getElementById("hoteles1").innerHTML = 'Hoteles';
+					document.getElementById("inmuebles1").innerHTML = 'Estab. de Barrio';
+					document.getElementById("ropayaccesorios1").innerHTML = 'Ropa y Accesorios';
+					document.getElementById("saludybienestar1").innerHTML = 'Salud y Bienestar';
+					document.getElementById("supermercados1").innerHTML = 'Supermercados';
+					document.getElementById("tecnologia1").innerHTML = 'Tecnologia';
+					document.getElementById("turismo1").innerHTML = 'Turismo';
+					document.getElementById("otros1").innerHTML = 'Otros';
+					document.getElementById("opciones1").innerHTML = 'Opciones';
+					//document.getElementById("donaciones1").innerHTML = 'Donaciones';
+					document.getElementById("acercadelafundacion1").innerHTML = 'Acerca de';
+					document.getElementById("registrarmilocal2").innerHTML = 'Reg. Establecimiento';
+					document.getElementById("establecimientos2").innerHTML = 'Establecimientos';
+					document.getElementById("favoritos2").innerHTML = 'Favoritos';
+					document.getElementById("fundacionesaliadas2").innerHTML = 'Fundaciones Aliadas';
+					//document.getElementById("appaliadas2").innerHTML = 'Apps Aliadas';
+					document.getElementById("aliadosestrategicos2").innerHTML = 'Aliados Estrategicos';
+					//document.getElementById("eventos2").innerHTML = 'Eventos';
+					document.getElementById("animalesyagricultura2").innerHTML = 'Animales y Agricultura';
+					document.getElementById("autopartes2").innerHTML = 'Autopartes';
+					document.getElementById("bancos2").innerHTML = 'Co. Bancarios';
+					document.getElementById("baresydiscotecas2").innerHTML = 'Bares y Discotecas';
+					document.getElementById("bellezayestetica2").innerHTML = 'Belleza y Estetica';
+					document.getElementById("bombasdegasolina2").innerHTML = 'Bombas de Gasolina';
+					document.getElementById("centroscomerciales2").innerHTML = 'Centros Comerciales';
+					document.getElementById("diversionyaventura2").innerHTML = 'Diversion y Aventura';
+					document.getElementById("educacion2").innerHTML = 'Educación';
+					document.getElementById("elementosdeportivos2").innerHTML = 'Elementos Deportivos';
+					document.getElementById("empleo2").innerHTML = 'Empleo';
+					document.getElementById("farmacias2").innerHTML = 'Farmacias';
+					document.getElementById("gastronomia2").innerHTML = 'Gastronomia';
+					document.getElementById("girosyentregas2").innerHTML = 'Giros y Entregas';
+					document.getElementById("productosyhogar2").innerHTML = 'Productos y Hogar';
+					document.getElementById("hoteles2").innerHTML = 'Hoteles';
+					document.getElementById("inmuebles2").innerHTML = 'Estab. de Barrio';
+					document.getElementById("ropayaccesorios2").innerHTML = 'Ropa y Accesorios';
+					document.getElementById("saludybienestar2").innerHTML = 'Salud y Bienestar';
+					document.getElementById("supermercados2").innerHTML = 'Supermercados';
+					document.getElementById("tecnologia2").innerHTML = 'Tecnologia';
+					document.getElementById("turismo2").innerHTML = 'Turismo';
+					document.getElementById("otros2").innerHTML = 'Otros';
+					document.getElementById("registrarmilocal3").innerHTML = 'Reg. Establecimiento';
+					document.getElementById("establecimientos3").innerHTML = 'Establecimientos';
+					document.getElementById("favoritos3").innerHTML = 'Favoritos';
+					document.getElementById("fundacionesaliadas3").innerHTML = 'Fundaciones Aliadas';
+					//document.getElementById("appaliadas3").innerHTML = 'App Aliadas';
+					document.getElementById("aliadosestrategicos3").innerHTML = 'Aliados Estrategicos';
+					//document.getElementById("eventos3").innerHTML = 'Eventos';
+					document.getElementById("animalesyagricultura3").innerHTML = 'Animales y Agricultura';
+					document.getElementById("autopartes3").innerHTML = 'Autopartes';
+					document.getElementById("bancos3").innerHTML = 'Co. Bancarios';
+					document.getElementById("baresydiscotecas3").innerHTML = 'Bares y Discotecas';
+					document.getElementById("bellezayestetica3").innerHTML = 'Belleza y Estetica';
+					document.getElementById("bombasdegasolina3").innerHTML = 'Bombas de Gasolina';
+					document.getElementById("centroscomerciales3").innerHTML = 'Centros Comerciales';
+					document.getElementById("diversionyaventura3").innerHTML = 'Diversion y Aventura';
+					document.getElementById("educacion3").innerHTML = 'Educación';
+					document.getElementById("elementosdeportivos3").innerHTML = 'Elementos Deportivos';
+					document.getElementById("empleo3").innerHTML = 'Empleo';
+					document.getElementById("farmacias3").innerHTML = 'Farmacias';
+					document.getElementById("gastronomia3").innerHTML = 'Gastronomia';
+					document.getElementById("girosyentregas3").innerHTML = 'Giros y Entregas';
+					document.getElementById("productosyhogar3").innerHTML = 'Productos y Hogar';
+					document.getElementById("hoteles3").innerHTML = 'Hoteles';
+					document.getElementById("inmuebles3").innerHTML = 'Estab. de Barrio';
+					document.getElementById("ropayaccesorios3").innerHTML = 'Ropa y Accesorios';
+					document.getElementById("saludybienestar3").innerHTML = 'Salud y Bienestar';
+					document.getElementById("supermercados3").innerHTML = 'Supermercados';
+					document.getElementById("tecnologia3").innerHTML = 'Tecnologia';
+					document.getElementById("turismo3").innerHTML = 'Turismo';
+					document.getElementById("otros3").innerHTML = 'Otros';
+					document.getElementById("titulo_politicas").innerHTML = 'Politicas';
+					document.getElementById("textpoliticas1").innerHTML = 'Politicas de Privacidad';
+					document.getElementById("textpoliticas2").innerHTML = '<p>Politicas de Privacidad</p>';
+					document.getElementById("textoidioma1").innerHTML = 'Idioma';
+					document.getElementById("textoidioma2").innerHTML = '<p>Idioma</p>';
+					document.getElementById("eltitulodelmapa").innerHTML = 'Establecimientos';
+					document.getElementById("tituloprincipal").innerHTML = 'Establecimientos';
+					document.getElementById("titulodetalle_mapa").innerHTML = 'Como llegar al establecimiento';
+					document.getElementById("titulo_pgdetalle").innerHTML = 'Detalle';
+					document.getElementById("titulo_acercade").innerHTML = 'Acerca De';
+					document.getElementById("texto_acercade").innerHTML = 'Gracias por descargar nuestra APP <br><br> ¡!SABÍA USTED¡¡ <br><br><p align="justify"> - Que viendo los videos de nuestras MARCAS RESPONSABLES contribuye a que las empresas se motiven a realizar más acciones que nos permitan generar positivamente cambios Sociales, Ambientales y Económicos. <br> - Que nuestras promociones publicadas fortalecen las cadenas productivas de nuestras marcas, generando mayor empleo y ofreciéndole a nuestros usuarios mejora su economía individual y generar mayor capacidad de ahorro. <br> - Que utilizando nuestra APP con todos sus beneficios nos permite que nuestros INVERSIONISTAS nos apoyen en el desarrollo de nuestros programas.</p>';
+					//document.getElementById("titulo_registrarmilocal").innerHTML = 'Reg. Establecimiento';
+					//document.getElementById("titulo_atras1").innerHTML = 'Atrás';
+					document.getElementById("titulo_atras2").innerHTML = 'Atrás';
+					document.getElementById("titulo_atras3").innerHTML = 'Atrás';
+					document.getElementById("titulo_atras4").innerHTML = 'Atrás';
+					document.getElementById("titulo_atras5").innerHTML = 'Atrás';
+					document.getElementById("titulo_atras6").innerHTML = 'Atrás';
+					//document.getElementById("inicio_pgprivacidad").innerHTML = 'Inicio';
+					document.getElementById("titulo_pbuscar").innerHTML = 'Buscar';
+					document.getElementById("btbuscar_busqueda").innerHTML = 'Buscar';
+					document.getElementById("txt_busqueda").placeholder = 'Buscar...';
+					/*document.getElementById("lbnombrelocal_registro").innerHTML = 'Nombre Local:';
+					document.getElementById("lbtelefonofijo_registro").innerHTML = 'Telefono Fijo:';
+					document.getElementById("lbtelefonomovil_registro").innerHTML = 'Telefono Movil:';
+					document.getElementById("lbcorreo_registro").innerHTML = 'Correo:';
+					document.getElementById("lbdireccion_registro").innerHTML = 'Dirección:';
+					document.getElementById("lbweb_registro").innerHTML = 'Web:';
+					document.getElementById("lbusuario_registro").innerHTML = 'Usuario:';
+					document.getElementById("lbcontrasena_registro").innerHTML = 'Contraseña:';
+					document.getElementById("lbimagenlogo_registro").innerHTML = 'Imagen Logo:';
+					document.getElementById("nombrelocal_registro").placeholder = 'Nombre Local....';
+					document.getElementById("telfijo_registro").placeholder = 'Telefono Fijo....';
+					document.getElementById("telmovil_registro").placeholder = 'Telefono Movil....';
+					document.getElementById("correo_registro").placeholder = 'Correo....';
+					document.getElementById("direccion_registro").placeholder = 'Dirección....';
+					document.getElementById("paginaweb_registro").placeholder = 'Web....';
+					document.getElementById("usuario_registro").placeholder = 'Usuario....';
+					document.getElementById("contrasena_registro").placeholder = 'Contraseña....';
+					document.getElementById("btsubmit_registro").value = 'Guardar';*/
+					document.getElementById("textodelapublicidad").innerHTML = '<p align="justify" style="width:100%;">El presente documento establece las condiciones mediante las cuales se regirá el uso de la Aplicación: <br><br>1.	Alcance y uso del usuario<br>2.	Obligación del usuario<br>3.	Requisitos para uso<br>4.	Beneficios del inversionista <br>5.	Propiedad intelectual<br>6.	Licencia para uso personal<br>7.	Integración con otras aplicaciones<br>8.	Uso de información y privacidad<br>9.	Responsabilidad de AFM Grupo Empresarial S.A.S y Guia Kilometro Y Medio<br>10.	Denegación y retiro del acceso a la aplicación<br>11.	Términos y condiciones<br>12.	Jurisdicción<br>13.	Uso de información no personal<br>14.	Uso de direcciones IP<br>15.	Seguridad<br><br>El servicio tecnológico ofrecido en adelante se llamara la aplicación; Guia Km Y Medio y la página Web <a href="https://www.guiakmymedio.com.co">www.guiakmymedio.com</a>, tecnología y marca que esta patentada ante las entidades correspondiente con cobertura en América, la cual es PROPIEDAD Y OPERADA por la compañía AFM GRUPO EMPRESARIAL PRODUCTOS & SERVICIOS S.A.S quien posee los derechos de PROPIEDAD INTELECTUAL, En adelante se llamara El Operador, compañía constituida en Colombia y domiciliada en la ciudad de Bogotá con Nit 900.539.849-5, este servicio de TECNOLOGIA es ALQUILADA o ARRENDADA a la FUNDACION RED SOCIAL AFM GRUPO AMIGOS.CO con NIT 900.945.647-5 en adelante se llama Fundación Grupo Amigos, con el objetivo de recolectar fondos de Inversionistas para el desarrollo de sus programas sociales.<br><br>La aplicación es de cobertura nacional y va dirigido a todas las marcas que deseen REGISTRARSE en nuestro PLAN FREE de acuerdo a la categoría que corresponda, nuestra APP será utilizada como un medio informativo que le permita en nuestra PRIMERA SECCION dar a conocer a sus posibles clientes y/o usuarios, el logo de la marca, la información básica del establecimiento como es: dirección, teléfono de domicilios, página web y LA SEGUNDA SECCION CON LA PRIMERA va dirigida a nuestros INVERSIONISTAS SOCIALMENTE RESPONSABLES, quienes harán parte de nuestro PROGRAMA AMIGO INVERSIONISTA APP “Las Marcas que Marcan Tu Corazón” a quien se les entregara un Usuario y Contraseña para que publiquen sus actividades promocionales y la ubicación de un videoclip dando a conocer a la comunidad la labor que viene desarrollando en temas de Responsabilidad Social Empresarial.<br><br><b>1. ALCANCE Y USO DEL USUARIO </b><br><br>Al descargar o utilizar la aplicación nuestro usuario acepta automáticamente estos términos, asegurándose de leerlos antes de utilizar la aplicación. Le ofrecemos esta aplicación para su uso personal sin ningún costo, pero debe saber que no está autorizado a copiar o modificar la aplicación, así como ninguna parte de esta, ni nuestras marcas comerciales de ningún modo. No deberá intentar extraer el código fuente de la aplicación, traducir la aplicación a otros idiomas ni crear versiones derivadas. La aplicación y todas las marcas comerciales, los derechos de autor, los derechos sobre bases de datos y demás derechos de propiedad intelectual relacionados.<br><br>La persona o usuario entiende que, ingresando su información personal para acceder a los beneficios, este acto es totalmente voluntario donde podrá utilizar en el territorio nacional, se aclara que la persona o usuario se hace responsable de acuerdo a las leyes establecidas en cada uno de los países donde llegue la APP. Los menores de edad tendrán acceso a la aplicación siempre y cuando su descarga y uso, sea supervisado por un adulto responsable, si no se cumpliere con lo anteriormente mencionado, solicitamos a los menores abstenerse del uso de la aplicación.  <br><br>La aplicación estará a la disposición del usuario y contará con diferentes alternativas que le permitirá tomar decisiones en el momento de adquirir su promoción u oferta, comunicación directa con cada uno de los establecimientos por si requiere más información acerca de los productos y servicios en oferta.<br><br>La GRUIA KILOMETRO Y MEDIO podrá solicitar a la empresa operadora algún tipo de modificación, cambio, corrección que sea solicitada, el cual será anunciada a los usuarios cuando ingrese nuevamente a la aplicación si es realmente necesario.<br><br><b>2. OBLIGACION DEL USUARIO</b><br><br>El Usuario se obliga a usar la aplicación y los contenidos encontrados en ella de una manera diligente, correcta, lícita y en especial, se compromete a NO realizar las conductas descritas a continuación:<br><br>(a) Utilizar los contenidos con fines o efectos contrarios a la ley,a la moral y a las buenas costumbres generalmente aceptadas o al orden público.<br>(b) Reproducir, copiar, representar, utilizar, distribuir, transformar o modificar los contenidos de la aplicación, por cualquier procedimiento o sobre cualquier soporte, total o parcial, o permitir el acceso del público a través de cualquier modalidad de comunicación pública.<br>(c) Utilizar los contenidos de cualquier manera que conlleven a riesgo de daño o inutilización de la aplicación o de los contenidos o de terceros.<br>(d) Suprimir, eludir o manipular el derecho de autor y demás datos incorporados a los contenidos, así como los dispositivos técnicos de protección, o cualquier mecanismo de información que pudieren tener los contenidos.<br>(e) Emplear los contenidos y en particular, la información de cualquier clase obtenida a través de la aplicación para distribuir, transmitir, remitir, modificar, rehusar o reportar la publicidad o los contenidos de esta con fines de venta directa o con cualquier otra clase de finalidad comercial, mensajes no solicitados dirigidos a una pluralidad de personas con independencia de su finalidad, así como comercializar o divulgar de cualquier modo dicha información.<br>f) Utilizar la aplicación y los contenidos con fines ilícitos, contrarios a lo establecido en estos Términos y Condiciones, o al uso mismo de la aplicación, que sean lesivos de los derechos e intereses de terceros, o que de cualquier forma puedan dañar, inutilizar, sobrecargar o deteriorar la aplicación y los contenidos o impedir la normal utilización o disfrute de esta y de los contenidos por parte de los usuarios.<br><br><b>3. REQUISITOS PARA USO</b><br><br>Las personas o usuarios deben tener en su poder un dispositivo móvil, con un sistema operativo Android o IOS, todos con acceso a internet, la Fundación Grupo Amigos no será responsable por afectaciones que se puedan producir en el dispositivo ni la disponibilidad del servicio.<br><br>1.	REGISTRO DE PERSONA O USUARIO El servicio de la APP es totalmente gratuito, se descargará por medio del sistema Play Store, al ingresar a la APP le solicitará diligenciar formulario de inscripción con datos básicos o lo podrá realizar por cuenta de Facebook.<br>2.	PROGRAMA AMIGO INVERSIONISTA APP “Las Marcas que Marcan Tu Corazón”, son las que tienen presencia a nivel nacional, la afiliación será directamente con nuestro departamento comercial.<br>3.	AFILIACIÓN DE ESTABLECIMIENTOS DE COMEMERCIO LOCAL, los establecimientos de comercio local se registrarán por medio de la página web. www.guiakmymedio.com.co.<br>4.	AFILIACIÓN DE APP ALIADAS la afiliación será directamente con nuestro departamento comercial.<br>5.	AFILIACIÓN DE ALIADOS ESTRATEGICOS la afiliación será directamente con nuestro departamento comercial.<br><br><b>4.	BENEFICIOS DEL INVERSIONISTA </b><br><br>Obtener un Usuario y Contraseña para que con autonomía pueda ingresar a la APP y realizar las actividades de actualización.<br><br>a.	Se le enviara por este mismo medio el CERTIFICADO DE DONACION cada vez que deposite en nuestras cuentas bancarias la donación mensual, obteniendo el beneficio tributario entregado por el gobierno y ser descuente de su declaración de renta de acuerdo al artículo La Ley 1819 de diciembre 29 de 2016.<br>b.	Los PROGRAMA AMIGO INVERSIONISTA APP “Las Marcas que Marcan Tu Corazón” En común acuerdo las marcas podrán participar en los eventos programados por la Fundación como son: Eventos con la población vulnerable, apoyo en los programas de la Fundación, Talleres de capacitación en diferentes áreas, eventos culturales, sociales, deportivos, turismo entre otros. Se les ofrece reconocimiento fotográfico (Marketing Social).<br>c.	Las grandes marcas, establecimientos de comercio local, o empresas, podrán manifestar el querer pautar en nuestros Banner publicitarios y serán atendidos por un Agente Comercial, dicha información será entregada directamente al Inversionista, el valor por la pauta es tomada como donación y será cancelada mensualmente de acuerdo a nuestras políticas comerciales.<br><br><b>5. PROPIEDAD INTELECTUAL</b><br><br>CONTENIDO DE LA INFORMACION. Todo el material informático, gráfico, publicitario, fotográfico, de multimedia, audiovisual y de diseño, así como todos los contenidos, textos y bases de datos puestos a su disposición en esta aplicación están protegidos por derechos de autor y/o propiedad industrial cuyo titular pueden ser los Inversionistas anunciantes, la Fundación Grupo Amigos, o sus compañías filiales, en algunos casos de terceros que han autorizado su uso o explotación. <br><br>Excepto el material libre de compartir en redes sociales como son: La ubicación de un establecimiento de comercio, la actividad promocional, los videoclips, geolocalización entre otras.<br><br>En ningún caso estos Términos y Condiciones confieren derechos, licencias ni autorizaciones para realizar los actos anteriormente prohibidos. Cualquier uso no autorizado de los contenidos constituirá una violación del presente documento y a las normas vigentes sobre derechos de autor, a las normas vigentes nacionales e internacionales sobre Propiedad Industrial, y a cualquier otra que sea aplicable.<br><br><b>6.	LICENCIA PARA USO PERSONAL</b><br><br>Usted podrá leer, visualizar, imprimir, compartir y descargar el material de sus productos.<br><br>Ya sea que se reconozca específicamente o no, las marcas comerciales, las marcas de productos o servicio y los logos visualizados en esta aplicación pertenecen al grupo de compañías AFM GRUPO EMPRESARIAL S.A.S, sus socios promocionales u otros terceros.<br><br><b>7.	INTEGRACIÓN CON OTRAS APLICACIONES</b><br><br>Cuando realizamos vinculación con otras aplicaciones, es por que estamos autorizados por dicha aplicación y por que nos han permitido en el sistema adecuar y alojar dicha aplicación.<br><br>Nuestra aplicación Fundación Grupo Amigos es un medio de comunicación he información entre el usuario y las Aplicación Aliada, donde cada aplicación inscrita responderá por la totalidad del servicio anunciado. Aunque nuestra aplicación trata de suministrar aplicaciones que cumplan con las leyes y regulaciones aplicables y las normas.<br><br><b>8.	CONFIDENCIALIDAD</b><br><br>Con la descarga de la APP Fundación Grupo Amigos, el Usuario y el Inversionista acepta y autoriza que AFM GRUPO EMPRESARIAL S.A.S y a la FUNDACIÓN RED SOCIAL AFM GRUPO AMIGOS.COM, a utilizar sus datos en calidad de responsable del tratamiento para fines derivados de la ejecución de la APP, informa que podrá ejercer sus derechos a conocer, actualizar, rectificar y suprimir su información personal; así como el derecho a revocar el consentimiento otorgado para el tratamiento de datos personales previstos en la ley 1581 de 2012, con el solo hecho de eliminar de su dispositivo la aplicación.<br><br><b>9.	RESPONSABILIDAD DE AFM GRUPO EMPRESARIAL S.A.S Y GUIA KILOMETRO Y MEDIO</b><br><br>Garantiza disponibilidad, continuidad o buen funcionamiento de la aplicación. El operador y la Fundación Grupo Amigos.com podrá bloquear, interrumpir o restringir el acceso a esta cuando lo considere necesario para el mejoramiento de la aplicación o por dada de baja de la misma.<br><br>AFM GRUPO EMPRESARIAL S.A.S y la GUIA KILOMETRO Y MEDIO no será responsable por: a) Fuerza mayor o caso fortuito; b) Por la pérdida, extravío o hurto de su dispositivo móvil que implique el acceso de terceros a la aplicación móvil; c) Por errores en la digitación o accesos por parte del cliente; d) Por los perjuicios, lucro cesante, daño emergente, morales, y en general sumas a cargo de AFM GRUPO EMPRESARIAL S.A.S y de la GUIA KILOMETRO Y MEDIO, por los retrasos, por el incumplimiento de la oferta realizada por el establecimiento de comercio,  no procesamiento de información o suspensión del servicio del operador móvil o daños en los dispositivos móviles.<br><br><b>10.	DENEGACIÓN Y RETIRADA DEL ACCESO A LA APLICACIÓN</b><br><br>Cuando un Usuario y/o el Inversionista incumpla estos Términos y Condiciones, o cualesquiera otras disposiciones que resulten de aplicación, AFM GRUPO EMPRESARIAL S.A.S y la GUIA KILOMETRO Y MEDIO podrá suspender su acceso a la aplicación.<br><br><b>11.	TÉRMINOS Y CONDICIONES</b><br><br>El Usuario acepta expresamente los Términos y Condiciones, siendo condición esencial para la utilización de la aplicación. En el evento en que se encuentre en desacuerdo con estos Términos y Condiciones, AFM GRUPO EMPRESARIAL S.A.S y la GUIA KILOMETRO Y MEDIO podrá modificar los presentes términos y condiciones siempre y cuando no afecte sus intereses o estén en contra de su objeto social, avisando a los usuarios mediante publicación en la página web www.guiakmymedio.com.co o mediante la difusión de las modificación por algún medio electrónico, redes sociales, SMS y/o correo electrónico, siempre y cuando sea necesario.<br><br>De no ser así el usuario y/o inversionista le solicita abandonar la aplicación inmediatamente.<br><br><b>12.	JURISDICCIÓN</b><br><br>Estos términos y condiciones y todo lo que tenga que ver con esta aplicación, se rigen por las leyes colombianas y por efecto de las leyes de los países que tenga cobertura.<br><br><b>13.	USO DE INFORMACIÓN NO PERSONAL</b><br><br>AFM GRUPO EMPRESARIAL S.A.S también recolecta información no personal en forma agregada para seguimiento de datos como el número total de descargas de la aplicación. Utilizamos esta información, que permanece en forma agregada, para entender el comportamiento de la aplicación.<br><br><b>14.	USO DE DIRECCIONES IP</b><br><br>Una dirección de Protocolo de Internet (IP) es un conjunto de números que se asigna automáticamente a su o dispositivo móvil cuando usted accede a su proveedor de servicios de internet, o a través de la red de área local (LAN) de su organización o la red de área amplia (WAN). Los servidores web automáticamente identifican su dispositivo móvil por la dirección IP asignada a él durante la utilización de la APP por motivos de geolocalización.<br><br><b>15.	SEGURIDAD</b><br><br>AFM GRUPO EMPRESARIAL S.A.S está comprometido en la protección segura de su información personal, así como los accesos únicamente al personal y sistemas autorizados, también contra la pérdida, uso indebido y alteración de sus datos de usuario bajo nuestro control. Además, hemos impuesto reglas estrictas a los empleados con acceso a las bases de datos que almacenan información del usuario o a los servidores que hospedan nuestros servicios.</p>';
+					//document.getElementById("lbnombrecontacto_registro").innerHTML = 'Nombre Contacto:';
+					//document.getElementById("contacto_registro").placeholder = 'Nombre Contacto....';
+					document.getElementById("titulo_pdonaciones").innerHTML = 'Donaciones';
+					document.getElementById("titulo_atras_donaciones").innerHTML = 'Atrás';
+					document.getElementById("txt_email_donaciones").placeholder = 'Tu Email....';
+					document.getElementById("btbuscar_donaciones").innerHTML = 'Enviar Donación';
+					document.getElementById("txt_documento_donaciones").placeholder = '# Documento....';
+					document.getElementById("aespanol").style = 'background-color: #B1B4E6;';
+					document.getElementById("aingles").style = '';
+					document.getElementById("aitaliano").style = '';
+				}
+				if(idioma == 'ingles'){
+					document.getElementById("registrarmilocal1").innerHTML = 'Register My Local';
+					document.getElementById("establecimientos1").innerHTML = 'Establishments';
+					document.getElementById("favoritos1").innerHTML = 'Favorites';
+					document.getElementById("fundacionesaliadas1").innerHTML = 'Allied Foundations';
+					//document.getElementById("appaliadas1").innerHTML = 'Allied Apps';
+					document.getElementById("aliadosestrategicos1").innerHTML = 'Strategic allies';
+					//document.getElementById("eventos1").innerHTML = 'Events';
+					document.getElementById("animalesyagricultura1").innerHTML = 'Animals and Agriculture';
+					document.getElementById("autopartes1").innerHTML = 'Auto parts';
+					document.getElementById("bancos1").innerHTML = 'Banks';
+					document.getElementById("baresydiscotecas1").innerHTML = 'Bars and discotheques';
+					document.getElementById("bellezayestetica1").innerHTML = 'Beauty';
+					document.getElementById("bombasdegasolina1").innerHTML = 'Petrol Pumps';
+					document.getElementById("centroscomerciales1").innerHTML = 'Malls';
+					document.getElementById("diversionyaventura1").innerHTML = 'Fun and Adventure';
+					document.getElementById("educacion1").innerHTML = 'Education';
+					document.getElementById("elementosdeportivos1").innerHTML = 'Sports Elements';
+					document.getElementById("empleo1").innerHTML = 'Job';
+					document.getElementById("farmacias1").innerHTML = 'Pharmacies';
+					document.getElementById("gastronomia1").innerHTML = 'Gastronomy';
+					document.getElementById("girosyentregas1").innerHTML = 'Money orders and deliveries';
+					document.getElementById("productosyhogar1").innerHTML = 'Products and Home';
+					document.getElementById("hoteles1").innerHTML = 'Hotels';
+					document.getElementById("inmuebles1").innerHTML = 'Neighborhood Stores';
+					document.getElementById("ropayaccesorios1").innerHTML = 'Clothes and accessories';
+					document.getElementById("saludybienestar1").innerHTML = 'Health & Wellness';
+					document.getElementById("supermercados1").innerHTML = 'Supermarkets';
+					document.getElementById("tecnologia1").innerHTML = 'Technology';
+					document.getElementById("turismo1").innerHTML = 'Tourism';
+					document.getElementById("otros1").innerHTML = 'Others';
+					document.getElementById("opciones1").innerHTML = 'Options';
+					//document.getElementById("donaciones1").innerHTML = 'Donations';
+					document.getElementById("acercadelafundacion1").innerHTML = 'About of';
+					document.getElementById("registrarmilocal2").innerHTML = 'Register My Local';
+					document.getElementById("establecimientos2").innerHTML = 'Establishments';
+					document.getElementById("favoritos2").innerHTML = 'Favorites';
+					document.getElementById("fundacionesaliadas2").innerHTML = 'Allied Foundations';
+					//document.getElementById("appaliadas2").innerHTML = 'Allied Apps';
+					document.getElementById("aliadosestrategicos2").innerHTML = 'Strategic allies';
+					//document.getElementById("eventos2").innerHTML = 'Events';
+					document.getElementById("animalesyagricultura2").innerHTML = 'Animals and Agriculture';
+					document.getElementById("autopartes2").innerHTML = 'Auto parts';
+					document.getElementById("bancos2").innerHTML = 'Banks';
+					document.getElementById("baresydiscotecas2").innerHTML = 'Bars and discotheques';
+					document.getElementById("bellezayestetica2").innerHTML = 'Beauty';
+					document.getElementById("bombasdegasolina2").innerHTML = 'Petrol Pumps';
+					document.getElementById("centroscomerciales2").innerHTML = 'Malls';
+					document.getElementById("diversionyaventura2").innerHTML = 'Fun and Adventure';
+					document.getElementById("educacion2").innerHTML = 'Education';
+					document.getElementById("elementosdeportivos2").innerHTML = 'Sports Elements';
+					document.getElementById("empleo2").innerHTML = 'Job';
+					document.getElementById("farmacias2").innerHTML = 'Pharmacies';
+					document.getElementById("gastronomia2").innerHTML = 'Gastronomy';
+					document.getElementById("girosyentregas2").innerHTML = 'Money orders and deliveries';
+					document.getElementById("productosyhogar2").innerHTML = 'Products and Home';
+					document.getElementById("hoteles2").innerHTML = 'Hotels';
+					document.getElementById("inmuebles2").innerHTML = 'Neighborhood Stores';
+					document.getElementById("ropayaccesorios2").innerHTML = 'Clothes and accessories';
+					document.getElementById("saludybienestar2").innerHTML = 'Health & Wellness';
+					document.getElementById("supermercados2").innerHTML = 'Supermarkets';
+					document.getElementById("tecnologia2").innerHTML = 'Technology';
+					document.getElementById("turismo2").innerHTML = 'Tourism';
+					document.getElementById("otros2").innerHTML = 'Others';
+					document.getElementById("registrarmilocal3").innerHTML = 'Register My Local';
+					document.getElementById("establecimientos3").innerHTML = 'Establishments';
+					document.getElementById("favoritos3").innerHTML = 'Favorites';
+					document.getElementById("fundacionesaliadas3").innerHTML = 'Allied Foundations';
+					//document.getElementById("appaliadas3").innerHTML = 'Allied Apps';
+					document.getElementById("aliadosestrategicos3").innerHTML = 'Strategic allies';
+					//document.getElementById("eventos3").innerHTML = 'Events';
+					document.getElementById("animalesyagricultura3").innerHTML = 'Animals and Agriculture';
+					document.getElementById("autopartes3").innerHTML = 'Auto parts';
+					document.getElementById("bancos3").innerHTML = 'Banks';
+					document.getElementById("baresydiscotecas3").innerHTML = 'Bars and discotheques';
+					document.getElementById("bellezayestetica3").innerHTML = 'Beauty';
+					document.getElementById("bombasdegasolina3").innerHTML = 'Petrol Pumps';
+					document.getElementById("centroscomerciales3").innerHTML = 'Malls';
+					document.getElementById("diversionyaventura3").innerHTML = 'Fun and Adventure';
+					document.getElementById("educacion3").innerHTML = 'Education';
+					document.getElementById("elementosdeportivos3").innerHTML = 'Sports Elements';
+					document.getElementById("empleo3").innerHTML = 'Job';
+					document.getElementById("farmacias3").innerHTML = 'Pharmacies';
+					document.getElementById("gastronomia3").innerHTML = 'Gastronomy';
+					document.getElementById("girosyentregas3").innerHTML = 'Money orders and deliveries';
+					document.getElementById("productosyhogar3").innerHTML = 'Products and Home';
+					document.getElementById("hoteles3").innerHTML = 'Hotels';
+					document.getElementById("inmuebles3").innerHTML = 'Neighborhood Stores';
+					document.getElementById("ropayaccesorios3").innerHTML = 'Clothes and accessories';
+					document.getElementById("saludybienestar3").innerHTML = 'Health & Wellness';
+					document.getElementById("supermercados3").innerHTML = 'Supermarkets';
+					document.getElementById("tecnologia3").innerHTML = 'Technology';
+					document.getElementById("turismo3").innerHTML = 'Tourism';
+					document.getElementById("otros3").innerHTML = 'Others';
+					document.getElementById("titulo_politicas").innerHTML = 'Policies';
+					document.getElementById("textpoliticas1").innerHTML = 'Privacy policies';
+					document.getElementById("textpoliticas2").innerHTML = '<p>Privacy policies</p>';
+					document.getElementById("textoidioma1").innerHTML = 'Language';
+					document.getElementById("textoidioma2").innerHTML = '<p>Language</p>';
+					document.getElementById("eltitulodelmapa").innerHTML = 'Establishments';
+					document.getElementById("tituloprincipal").innerHTML = 'Establishments';
+					document.getElementById("titulodetalle_mapa").innerHTML = 'How to get to the establishment';
+					document.getElementById("titulo_pgdetalle").innerHTML = 'Detail';
+					document.getElementById("titulo_acercade").innerHTML = 'About';
+					document.getElementById("texto_acercade").innerHTML = 'Thank you for downloading our APP <br><br> ¡!DID YOU KNOW¡¡ <br><br><p align="justify"> - That watching the videos of our RESPONSIBLE BRANDS helps companies to be motivated to carry out more actions that allow us to positively generate Social, Environmental and Economic changes. <br> - That our published promotions strengthen the productive chains of our brands, generating more employment and offering our users improves their individual economy and generate greater savings capacity. <br> - That using our APP with all its benefits allows us our INVESTORS support us in the development of our programs.</p>';
+					//document.getElementById("titulo_registrarmilocal").innerHTML = 'Register My Local';
+					//document.getElementById("titulo_atras1").innerHTML = 'Back';
+					document.getElementById("titulo_atras2").innerHTML = 'Back';
+					document.getElementById("titulo_atras3").innerHTML = 'Back';
+					document.getElementById("titulo_atras4").innerHTML = 'Back';
+					document.getElementById("titulo_atras5").innerHTML = 'Back';
+					document.getElementById("titulo_atras6").innerHTML = 'Back';
+					//document.getElementById("inicio_pgprivacidad").innerHTML = 'Home';
+					document.getElementById("titulo_pbuscar").innerHTML = 'Search';
+					document.getElementById("btbuscar_busqueda").innerHTML = 'Seacrh';
+					document.getElementById("txt_busqueda").placeholder = 'Search...';
+					/*document.getElementById("lbnombrelocal_registro").innerHTML = 'Local Name:';
+					document.getElementById("lbtelefonofijo_registro").innerHTML = 'Landline:';
+					document.getElementById("lbtelefonomovil_registro").innerHTML = 'Mobile phone:';
+					document.getElementById("lbcorreo_registro").innerHTML = 'Email:';
+					document.getElementById("lbdireccion_registro").innerHTML = 'Address:';
+					document.getElementById("lbweb_registro").innerHTML = 'Web:';
+					document.getElementById("lbusuario_registro").innerHTML = 'User:';
+					document.getElementById("lbcontrasena_registro").innerHTML = 'Password:';
+					document.getElementById("lbimagenlogo_registro").innerHTML = 'Logo Image:';
+					document.getElementById("nombrelocal_registro").placeholder = 'Local Name....';
+					document.getElementById("telfijo_registro").placeholder = 'Landline....';
+					document.getElementById("telmovil_registro").placeholder = 'Mobile phone....';
+					document.getElementById("correo_registro").placeholder = 'Email....';
+					document.getElementById("direccion_registro").placeholder = 'Address....';
+					document.getElementById("paginaweb_registro").placeholder = 'Web....';
+					document.getElementById("usuario_registro").placeholder = 'User....';
+					document.getElementById("contrasena_registro").placeholder = 'Password....';
+					document.getElementById("btsubmit_registro").value = 'Save';*/
+					document.getElementById("textodelapublicidad").innerHTML = '<p align="justify" style="width:100%;">This document establishes the conditions by which the use of the Application will be governed: <br><br>1.	Reach and use of the user<br>2.	User Obligation<br>3.	Requirements for use<br>4.	Investor Benefits <br>5.	Intellectual property<br>6.	License for personal use<br>7.	Integration with other applications<br>8.	Use of information and privacy<br>9.	Responsibility of AFM Grupo Empresarial S.A.S and Guia Kilometro Y Medio<br>10.	Denial and withdrawal of access to the application<br>11.	Terms and Conditions<br>12.	Jurisdiction<br>13.	Use of non-personal information<br>14.	Use of IP addresses<br>15.	Security<br><br>The technological service offered hereinafter will be called the application; Grupo Amigos Foundation and the website <a href="https://www.guiakmymedio.com.co">www.guiakmymedio.com.co</a>, technology and brand that is patented before the corresponding entities with coverage in America, which is PROPERTY AND OPERATED by the company AFM GRUPO EMPRESARIAL PRODUCTOS & SERVICIOS SAS who owns the rights of INTELLECTUAL PROPERTY, hereinafter called the Operator, a company incorporated in Colombia and domiciled in the city of Bogotá with Nit 900.539.849-5, this TECHNOLOGY service is RENTED or RENTED to the AFM GRUPO AMIGOS.CO SOCIAL NETWORK FOUNDATION with NIT 900.945.647-5 from now on is called Grupo Amigos Foundation, with the objective of collecting funds from Investors for the development of their social programs.<br><br>The application is of national coverage and is aimed at all brands that wish to REGISTER in our FREE PLAN according to the category that corresponds, our APP will be used as an information medium that allows you in our FIRST SECTION to make known your potential customers and / or users, the brand logo, the basic information of the establishment such as: address, home phone number, web page and THE SECOND SECTION WITH THE FIRST is addressed to our SOCIALLY RESPONSIBLE INVESTORS, who will be part of our INVESTING FRIENDS PROGRAM APP "The Marks that Mark Your Heart" to whom a User and Password will be delivered to publish their promotional activities and the location of a video clip making known to the community the work they have been developing in matters of Corporate Social Responsibility.<br><br><b>1. SCOPE AND USE OF THE USER </b><br><br>By downloading or using the application our user automatically accepts these terms, making sure to read them before using the application. We offer this application for your personal use at no cost, but you should know that you are not authorized to copy or modify the application, as well as any part of it, or our trademarks in any way. You should not attempt to extract the source code of the application, translate the application into other languages, or create derived versions. The application and all trademarks, copyrights, database rights and other related intellectual property rights. <br> <br> The person or user understands that, by entering their personal information to access the benefits, This act is totally voluntary where you can use it in the national territory, it is clarified that the person or user is responsible in accordance with the laws established in each of the countries where the APP arrives. Minors will have access to the application as long as its download and use is supervised by a responsible adult, if the aforementioned is not complied with, we request that the minors refrain from using the application. <br> <br> The application will be available to the user and will have different alternatives that will allow him to make decisions at the moment of acquiring his promotion or offer, direct communication with each one of the establishments in case he needs more information about the products and services on offer. <br> <br> The GRUPO AMIGOS FOUNDATION may request from the operating company some type of modification, change, correction that is requested, which will be announced to users when they re-enter the application if it is really necessary.<br><br><b>2. OBLIGATION OF THE USER</b><br><br>The User undertakes to use the application and the contents found therein in a diligent, correct, lawful and especially way, undertakes NOT to perform the behaviors described below: <br> <br> (a) Use the contents with purposes or effects contrary to the law, morality and generally accepted good customs or public order. <br> (b) Reproduce, copy, represent, use, distribute, transform or modify the contents of the application, by any procedure or on any support, total or partial, or allow public access through any form of public communication. <br> (c) Use the contents in any way that leads to risk of damage or disablement of the application or contents or third parties. <br> (d) Delete, circumvent or manipulate the copyright and other data incorporated into the contents, as well as the technical protection devices, or any information mechanism that p They want to have the contents. <br> (e) Use the contents and in particular, the information of any kind obtained through the application to distribute, transmit, send, modify, refuse or report the advertising or the contents thereof Direct sale or with any other kind of commercial purpose, unsolicited messages addressed to a plurality of people regardless of their purpose, as well as commercialize or disseminate such information in any way. <br> f) Use the application and contents with illegal purposes, contrary to what is established in these Terms and Conditions, or the use of the application itself, that are harmful to the rights and interests of third parties, or that in any way may damage, disable, overload or deteriorate the application and contents or prevent the normal use or enjoyment of this and the contents by users.<br><br><b>3. REQUIREMENTS FOR USE</b><br><br>Individuals or users must have a mobile device, with an Android or IOS operating system, all with internet access, the Grupo Amigos Foundation will not be responsible for damages that may occur on the device or the availability of the service. < br> <br> 1. REGISTRATION OF PERSON OR USER The APP service is completely free, it will be downloaded through the Play Store system, upon entering the APP you will be asked to fill out the registration form with basic data or you can do it on Facebook. <br> 2 . APP INVESTING FRIENDS PROGRAM “The Marks that Mark Your Heart”, are those that have a national presence, the affiliation will be directly with our commercial department. <br> 3. AFFILIATION OF LOCAL COMMERCE ESTABLISHMENTS, local commerce establishments will be registered through the website. www.guiakmymedio.com.co. <br> 4. ALLIED APP MEMBERSHIP Membership will be directly with our commercial department. <br> 5. MEMBERSHIP OF STRATEGIC PARTNERS Membership will be directly with our commercial department.<br><br><b>4.	INVESTOR´S BENEFITS </b><br><br>Obtain a Username and Password so that with autonomy you can enter the APP and perform the updating activities. <br> <br> a. The DONATION CERTIFICATE will be sent to you by this same means every time you deposit the monthly donation in our bank accounts, obtaining the tax benefit delivered by the government and being deducted from your income tax return according to article Law 1819 of December 29 of 2016.<br>b.	The APP INVESTING FRIENDS PROGRAM “The Marks that Mark Your Heart” In common agreement, the brands may participate in the events programmed by the Foundation such as: Events with the vulnerable population, support in the Foundation´s programs, Training workshops in different areas , cultural, social, sporting events, tourism among others. They are offered photographic recognition (Social Marketing). <br> c. The big brands, establishments of local commerce, or companies, will be able to express the desire to rule in our Advertising Banner and will be attended by a Commercial Agent, said information will be delivered directly to the Investor, the value for the guideline is taken as a donation and will be canceled monthly according to our commercial policies.<br><br><b>5. INTELLECTUAL PROPERTY</b><br><br>CONTENT OF THE INFORMATION. All computer, graphic, advertising, photographic, multimedia, audiovisual and design material, as well as all the contents, texts and databases made available in this application are protected by copyright and / or industrial property whose owner they can be the advertising Investors, the Grupo Amigos Foundation, or their affiliated companies, in some cases of third parties that have authorized their use or exploitation. <br> <br> Except the free material to share on social networks such as: The location of a commercial establishment, promotional activity, video clips, geolocation among others. <br> <br> In no case these Terms and Conditions confer rights, licenses or authorizations to perform the previously prohibited acts. Any unauthorized use of the contents will constitute a violation of this document and the current rules on copyright, the current national and international standards on Industrial Property, and any other that may be applicable. <br> <br> <b> 6 . LICENSE FOR PERSONAL USE </b> <br> <br> You can read, view, print, share and download the material of your products. <br> <br> Whether or not trademarks are specifically recognized, The product or service brands and logos displayed in this application belong to the group of companies AFM GRUPO EMPRESARIAL SAS, its promotional partners or other third parties.<br><br><b>7.	INTEGRATION WITH OTHER APPLICATIONS</b><br><br>When we link up with other applications, it is because we are authorized by said application and because they have allowed us to adapt and host this application in the system. <br> <br> Our application Grupo Amigos Foundation is a means of communication and information between the User and the Allied Application, where each registered application will respond for the entire service announced. Although our application tries to provide applications that comply with applicable laws and regulations and standards. <br> <br> <b> 8. CONFIDENTIALITY </b> <br> <br> With the download of the APP Grupo Amigos Foundation, the User and the Investor accepts and authorizes that AFM GRUPO EMPRESARIAL SAS and the FOUNDATION SOCIAL NETWORK AFM GRUPO AMIGOS.COM, to use their data in as the person responsible for the treatment for purposes derived from the execution of the APP, informs that you may exercise your rights to know, update, rectify and delete your personal information; as well as the right to revoke the consent granted for the processing of personal data provided in law 1581 of 2012, with the sole fact of removing the application from your device.<br><br><b>9. RESPONSIBILITY OF AFM GRUPO EMPRESARIAL S.A.S AND GUIA KILOMETRO Y MEDIO</b><br><br>Guarantees availability, continuity or smooth operation of the application. The operator and the Grupo Amigos.com Foundation may block, interrupt or restrict access to it when it deems it necessary for the improvement of the application or for canceling it. <br> <br> AFM GRUPO EMPRESARIAL SAS and the GUIA KILOMETRO Y MEDIO will not be responsible for: a) Force majeure or fortuitous event; b) For the loss, loss or theft of your mobile device that involves third party access to the mobile application; c) Due to errors in the fingering or access by the client; d) For the damages, loss of earnings, emergent damages, morals, and in general amounts paid by AFM GRUPO EMPRESARIAL SAS and the GUIA KILOMETRO Y MEDIO, for the delays, for the breach of the offer made by the establishment of commerce, non-processing of information or suspension of the mobile operator´s service or damage to mobile devices. <br> <br> <b> 10. REFUSAL AND WITHDRAWAL OF ACCESS TO THE APPLICATION </b> <br> <br> When a User and / or the Investor breaches these Terms and Conditions, or any other provisions that may apply, AFM GRUPO EMPRESARIAL SAS and the SOCIAL NETWORK FOUNDATION GRUPO AMIGOS.COM may suspend your access to the application.<br><br><b>11.	TERMS AND CONDITIONS </b> <br> <br> The User expressly accepts the Terms and Conditions, being an essential condition for the use of the application. In the event that you disagree with these Terms and Conditions, AFM GRUPO EMPRESARIAL SAS and the GUIA KILOMETRO Y MEDIO may modify these terms and conditions as long as it does not affect their interests or are against their corporate purpose , notifying users by publishing on the website www.guiakmymedio.com.co or by disseminating the changes by some electronic means, social networks, SMS and / or email, as long as necessary. <br> <br> Otherwise, the user and / or investor asks to leave the application immediately.<br><br><b>12.	JURISDICTION </b> <br> <br> These terms and conditions and everything that has to do with this application, are governed by the Colombian laws and by effect of the laws of the countries that have coverage. <br> <br > <b> 13. USE OF NON-PERSONAL INFORMATION </b> <br> <br> AFM GRUPO EMPRESARIAL S.A.S also collects non-personal information in aggregate form for tracking data such as the total number of downloads of the application. We use this information, which remains in aggregate form, to understand the behavior of the application. <br> <br> <b> 14. USE OF IP ADDRESSES </b> <br> <br> An Internet Protocol (IP) address is a set of numbers that is automatically assigned to your mobile device when you access your internet service provider, or through from your organization´s local area network (LAN) or the wide area network (WAN). Web servers automatically identify your mobile device by the IP address assigned to it during the use of the APP for geolocation reasons. <br> <br> <b> 15. SECURITY </b> <br> <br> AFM GRUPO EMPRESARIAL SAS is committed to the safe protection of your personal information, as well as access only to authorized personnel and systems, also against the loss, misuse and alteration of your personal data. User under our control. In addition, we have imposed strict rules on employees with access to the databases that store user information or to the servers that host our services.</p>';
+					//document.getElementById("lbnombrecontacto_registro").innerHTML = 'Name Contact:';
+					//document.getElementById("contacto_registro").placeholder = 'Name Contact....';
+					document.getElementById("titulo_pdonaciones").innerHTML = 'Donations';
+					document.getElementById("titulo_atras_donaciones").innerHTML = 'Back';
+					document.getElementById("txt_email_donaciones").placeholder = 'Email....';
+					document.getElementById("btbuscar_donaciones").innerHTML = 'Send Donation';
+					document.getElementById("txt_documento_donaciones").placeholder = '# Document....';
+					document.getElementById("aespanol").style = '';
+					document.getElementById("aingles").style = 'background-color: #B1B4E6;';
+					document.getElementById("aitaliano").style = '';
+				}
+				if(idioma == 'italiano'){
+					document.getElementById("registrarmilocal1").innerHTML = 'Registra il mio locale';
+					document.getElementById("establecimientos1").innerHTML = 'Stabilimenti';
+					document.getElementById("favoritos1").innerHTML = 'Favorito';
+					document.getElementById("fundacionesaliadas1").innerHTML = 'Fondazioni Alleate';
+					//document.getElementById("appaliadas1").innerHTML = 'Apps Alleata';
+					//document.getElementById("eventos1").innerHTML = 'Eventi';
+					document.getElementById("aliadosestrategicos1").innerHTML = 'Alleati strategici';
+					document.getElementById("animalesyagricultura1").innerHTML = 'Animali e agricoltura';
+					document.getElementById("autopartes1").innerHTML = 'Ricambi auto';
+					document.getElementById("bancos1").innerHTML = 'Banche';
+					document.getElementById("baresydiscotecas1").innerHTML = 'Bar e discoteche';
+					document.getElementById("bellezayestetica1").innerHTML = 'Bellezza ed estetica';
+					document.getElementById("bombasdegasolina1").innerHTML = 'Pompe di benzina';
+					document.getElementById("centroscomerciales1").innerHTML = 'Centri commerciali';
+					document.getElementById("diversionyaventura1").innerHTML = 'Divertimento e avventura';
+					document.getElementById("educacion1").innerHTML = 'Educazione';
+					document.getElementById("elementosdeportivos1").innerHTML = 'Elementi sportivi';
+					document.getElementById("empleo1").innerHTML = 'Occupazione';
+					document.getElementById("farmacias1").innerHTML = 'Farmacie';
+					document.getElementById("gastronomia1").innerHTML = 'Gastronomia';
+					document.getElementById("girosyentregas1").innerHTML = 'Vaglia e consegne';
+					document.getElementById("productosyhogar1").innerHTML = 'Prodotti e casa';
+					document.getElementById("hoteles1").innerHTML = 'Alberghi';
+					document.getElementById("inmuebles1").innerHTML = 'Negozi di quartiere';
+					document.getElementById("ropayaccesorios1").innerHTML = 'Abbigliamento e accessori';
+					document.getElementById("saludybienestar1").innerHTML = 'Salute e benessere';
+					document.getElementById("supermercados1").innerHTML = 'Supermercati';
+					document.getElementById("tecnologia1").innerHTML = 'Tecnologia';
+					document.getElementById("turismo1").innerHTML = 'Turismo';
+					document.getElementById("otros1").innerHTML = 'Altrui';
+					document.getElementById("registrarmilocal2").innerHTML = 'Registra il mio locale';
+					document.getElementById("establecimientos2").innerHTML = 'Stabilimenti';
+					document.getElementById("favoritos2").innerHTML = 'Favorito';
+					document.getElementById("fundacionesaliadas2").innerHTML = 'Fondazioni Alleate';
+					//document.getElementById("appaliadas2").innerHTML = 'Apps Alleata';
+					//document.getElementById("eventos2").innerHTML = 'Eventi';
+					document.getElementById("aliadosestrategicos2").innerHTML = 'Alleati strategici';
+					document.getElementById("animalesyagricultura2").innerHTML = 'Animali e agricoltura';
+					document.getElementById("autopartes2").innerHTML = 'Ricambi auto';
+					document.getElementById("bancos2").innerHTML = 'Banche';
+					document.getElementById("baresydiscotecas2").innerHTML = 'Bar e discoteche';
+					document.getElementById("bellezayestetica2").innerHTML = 'Bellezza ed estetica';
+					document.getElementById("bombasdegasolina2").innerHTML = 'Pompe di benzina';
+					document.getElementById("centroscomerciales2").innerHTML = 'Centri commerciali';
+					document.getElementById("diversionyaventura2").innerHTML = 'Divertimento e avventura';
+					document.getElementById("educacion2").innerHTML = 'Educazione';
+					document.getElementById("elementosdeportivos2").innerHTML = 'Elementi sportivi';
+					document.getElementById("empleo2").innerHTML = 'Occupazione';
+					document.getElementById("farmacias2").innerHTML = 'Farmacie';
+					document.getElementById("gastronomia2").innerHTML = 'Gastronomia';
+					document.getElementById("girosyentregas2").innerHTML = 'Vaglia e consegne';
+					document.getElementById("productosyhogar2").innerHTML = 'Prodotti e casa';
+					document.getElementById("hoteles2").innerHTML = 'Alberghi';
+					document.getElementById("inmuebles2").innerHTML = 'Negozi di quartiere';
+					document.getElementById("ropayaccesorios2").innerHTML = 'Abbigliamento e accessori';
+					document.getElementById("saludybienestar2").innerHTML = 'Salute e benessere';
+					document.getElementById("supermercados2").innerHTML = 'Supermercati';
+					document.getElementById("tecnologia2").innerHTML = 'Tecnologia';
+					document.getElementById("turismo2").innerHTML = 'Turismo';
+					document.getElementById("otros2").innerHTML = 'Altrui';
+					document.getElementById("registrarmilocal3").innerHTML = 'Registra il mio locale';
+					document.getElementById("establecimientos3").innerHTML = 'Stabilimenti';
+					document.getElementById("favoritos3").innerHTML = 'Favorito';
+					document.getElementById("fundacionesaliadas3").innerHTML = 'Fondazioni Alleate';
+					//document.getElementById("appaliadas3").innerHTML = 'Apps Alleata';
+					//document.getElementById("eventos3").innerHTML = 'Eventi';
+					document.getElementById("aliadosestrategicos3").innerHTML = 'Alleati strategici';
+					document.getElementById("animalesyagricultura3").innerHTML = 'Animali e agricoltura';
+					document.getElementById("autopartes3").innerHTML = 'Ricambi auto';
+					document.getElementById("bancos3").innerHTML = 'Banche';
+					document.getElementById("baresydiscotecas3").innerHTML = 'Bar e discoteche';
+					document.getElementById("bellezayestetica3").innerHTML = 'Bellezza ed estetica';
+					document.getElementById("bombasdegasolina3").innerHTML = 'Pompe di benzina';
+					document.getElementById("centroscomerciales3").innerHTML = 'Centri commerciali';
+					document.getElementById("diversionyaventura3").innerHTML = 'Divertimento e avventura';
+					document.getElementById("educacion3").innerHTML = 'Educazione';
+					document.getElementById("elementosdeportivos3").innerHTML = 'Elementi sportivi';
+					document.getElementById("empleo3").innerHTML = 'Occupazione';
+					document.getElementById("farmacias3").innerHTML = 'Farmacie';
+					document.getElementById("gastronomia3").innerHTML = 'Gastronomia';
+					document.getElementById("girosyentregas3").innerHTML = 'Vaglia e consegne';
+					document.getElementById("productosyhogar3").innerHTML = 'Prodotti e casa';
+					document.getElementById("hoteles3").innerHTML = 'Alberghi';
+					document.getElementById("inmuebles3").innerHTML = 'Negozi di quartiere';
+					document.getElementById("ropayaccesorios3").innerHTML = 'Abbigliamento e accessori';
+					document.getElementById("saludybienestar3").innerHTML = 'Salute e benessere';
+					document.getElementById("supermercados3").innerHTML = 'Supermercati';
+					document.getElementById("tecnologia3").innerHTML = 'Tecnologia';
+					document.getElementById("turismo3").innerHTML = 'Turismo';
+					document.getElementById("otros3").innerHTML = 'Altrui';
+					document.getElementById("titulo_politicas").innerHTML = 'Politiche';
+					document.getElementById("textpoliticas1").innerHTML = 'Informativa sulla privacy';
+					document.getElementById("textpoliticas2").innerHTML = '<p>Informativa sulla privacy</p>';
+					document.getElementById("textoidioma1").innerHTML = 'Lingua';
+					document.getElementById("textoidioma2").innerHTML = '<p>Lingua</p>';
+					document.getElementById("opciones1").innerHTML = 'Opzioni';
+					//document.getElementById("donaciones1").innerHTML = 'Donazioni';
+					document.getElementById("acercadelafundacion1").innerHTML = 'Informazioni';
+					document.getElementById("eltitulodelmapa").innerHTML = 'Stabilimenti';
+					document.getElementById("tituloprincipal").innerHTML = 'Stabilimenti';
+					document.getElementById("titulodetalle_mapa").innerHTML = 'Come arrivare allo stabilimento';
+					document.getElementById("titulo_pgdetalle").innerHTML = 'Dettaglio';
+					document.getElementById("titulo_acercade").innerHTML = 'Su';
+					document.getElementById("texto_acercade").innerHTML = 'Grazie per aver scaricato la nostra APP <br><br> ¡!LO SAPEVI¡¡ <br><br><p align="justify"> - Che guardare i video dei nostri MARCHI RESPONSABILI aiuta le aziende a essere motivate a compiere più azioni che ci consentano di generare positivamente cambiamenti sociali, ambientali ed economici. <br> - Che le nostre promozioni pubblicate rafforzino le catene produttive dei nostri marchi, generando più occupazione e offrendo ai nostri utenti un miglioramento della loro economia individuale e una maggiore capacità di risparmio. <br> - L´ uso della nostra APP con tutti i suoi vantaggi ci consente ai nostri INVESTITORI di supportarci nello sviluppo dei nostri programmi.</p>';
+					//document.getElementById("titulo_registrarmilocal").innerHTML = 'Registra il mio locale';
+					//document.getElementById("titulo_atras1").innerHTML = 'Atras';
+					document.getElementById("titulo_atras2").innerHTML = 'Atras';
+					document.getElementById("titulo_atras3").innerHTML = 'Atras';
+					document.getElementById("titulo_atras4").innerHTML = 'Atras';
+					document.getElementById("titulo_atras5").innerHTML = 'Atras';
+					document.getElementById("titulo_atras6").innerHTML = 'Atras';
+					//document.getElementById("inicio_pgprivacidad").innerHTML = 'Iniziazione';
+					document.getElementById("titulo_pbuscar").innerHTML = 'Cerca';
+					document.getElementById("btbuscar_busqueda").innerHTML = 'Cerca';
+					document.getElementById("txt_busqueda").placeholder = 'Cerca...';
+					/*document.getElementById("lbnombrelocal_registro").innerHTML = 'Nome locale:';
+					document.getElementById("lbtelefonofijo_registro").innerHTML = 'Telefono fisso:';
+					document.getElementById("lbtelefonomovil_registro").innerHTML = 'Telefono cellulare:';
+					document.getElementById("lbcorreo_registro").innerHTML = 'Email:';
+					document.getElementById("lbdireccion_registro").innerHTML = 'Indirizzo:';
+					document.getElementById("lbweb_registro").innerHTML = 'Web:';
+					document.getElementById("lbusuario_registro").innerHTML = 'Utente:';
+					document.getElementById("lbcontrasena_registro").innerHTML = 'Password:';
+					document.getElementById("lbimagenlogo_registro").innerHTML = 'Immagine logo:';
+					document.getElementById("nombrelocal_registro").placeholder = 'Nome locale....';
+					document.getElementById("telfijo_registro").placeholder = 'Telefono fisso....';
+					document.getElementById("telmovil_registro").placeholder = 'Telefono cellulare....';
+					document.getElementById("correo_registro").placeholder = 'Email....';
+					document.getElementById("direccion_registro").placeholder = 'Indirizzo....';
+					document.getElementById("paginaweb_registro").placeholder = 'Web....';
+					document.getElementById("usuario_registro").placeholder = 'Utente....';
+					document.getElementById("contrasena_registro").placeholder = 'Password....';
+					document.getElementById("btsubmit_registro").value = 'Salva';*/
+					document.getElementById("textodelapublicidad").innerHTML = '<p align="justify" style="width:100%;">Il presente documento stabilisce le condizioni alle quali sarà regolato l´uso dell´Applicazione: <br> <br> 1. Scopo e utilizzo dell´utente <br> 2. Obbligo dell´utente <br> 3. Requisiti per l´uso <br> 4. Vantaggi dell´investitore <br> 5. Proprietà intellettuale <br> 6. Licenza per uso personale <br> 7. Integrazione con altre applicazioni <br> 8. Utilizzo delle informazioni e della privacy <br> 9. Responsabilità di AFM Grupo Empresarial S.A.S e Guia Kilometro Y Medio <br> 10. Negazione e revoca dell´accesso all´applicazione <br> 11. Termini e condizioni <br> 12. Giurisdizione <br> 13. Uso di informazioni non personali <br> 14. Uso di indirizzi IP <br> 15. Sicurezza <br> <br> Il servizio tecnologico offerto di seguito verrà chiamato applicazione; Fundación Grupo Amigos e il sito web <a href="https://www.guiakmymedio.com.co"> www.guiakmymedio.com.co </a>, tecnologia e marchio brevettati davanti alle corrispondenti entità con copertura in America, che È di PROPRIETÀ E OPERATO dalla società AFM GRUPO EMPRESARIAL PRODUCTOS & SERVICIOS SAS che possiede i diritti di PROPRIETÀ INTELLETTUALE, di seguito denominata The Operator, una società costituita in Colombia e domiciliata nella città di Bogotà con Nit 900.539.849-5, questo servizio TECNOLOGIA è AFFITTATA o AFFITTATA alla FONDAZIONE SOCIAL NETWORK AFM GRUPO AMIGOS.CO con NIT 900.945.647-5 da ora in poi si chiama Grupo Amigos Foundation, con l´obiettivo di raccogliere fondi per gli investitori per lo sviluppo dei suoi programmi sociali.<br><br>La aplicación es de cobertura nacional y va dirigido a todas las marcas que deseen REGISTRARSE en nuestro PLAN FREE de acuerdo a la categoría que corresponda, nuestra APP será utilizada como un medio informativo que le permita en nuestra PRIMERA SECCION dar a conocer a sus posibles clientes y/o usuarios, el logo de la marca, la información básica del establecimiento como es: dirección, teléfono de domicilios, página web y LA SEGUNDA SECCION CON LA PRIMERA va dirigida a nuestros INVERSIONISTAS SOCIALMENTE RESPONSABLES, quienes harán parte de nuestro PROGRAMA AMIGO INVERSIONISTA APP “Las Marcas que Marcan Tu Corazón” a quien se les entregara un Usuario y Contraseña para que publiquen sus actividades promocionales y la ubicación de un videoclip dando a conocer a la comunidad la labor que viene desarrollando en temas de Responsabilidad Social Empresarial.<br><br><b>1. ALCANCE Y USO DEL USUARIO </b><br><br>Al descargar o utilizar la aplicación nuestro usuario acepta automáticamente estos términos, asegurándose de leerlos antes de utilizar la aplicación. Le ofrecemos esta aplicación para su uso personal sin ningún costo, pero debe saber que no está autorizado a copiar o modificar la aplicación, así como ninguna parte de esta, ni nuestras marcas comerciales de ningún modo. No deberá intentar extraer el código fuente de la aplicación, traducir la aplicación a otros idiomas ni crear versiones derivadas. La aplicación y todas las marcas comerciales, los derechos de autor, los derechos sobre bases de datos y demás derechos de propiedad intelectual relacionados.<br><br>La persona o usuario entiende que, ingresando su información personal para acceder a los beneficios, este acto es totalmente voluntario donde podrá utilizar en el territorio nacional, se aclara que la persona o usuario se hace responsable de acuerdo a las leyes establecidas en cada uno de los países donde llegue la APP. Los menores de edad tendrán acceso a la aplicación siempre y cuando su descarga y uso, sea supervisado por un adulto responsable, si no se cumpliere con lo anteriormente mencionado, solicitamos a los menores abstenerse del uso de la aplicación.  <br><br>La aplicación estará a la disposición del usuario y contará con diferentes alternativas que le permitirá tomar decisiones en el momento de adquirir su promoción u oferta, comunicación directa con cada uno de los establecimientos por si requiere más información acerca de los productos y servicios en oferta.<br><br>La GUIA KILOMETRO Y MEDIO podrá solicitar a la empresa operadora algún tipo de modificación, cambio, corrección que sea solicitada, el cual será anunciada a los usuarios cuando ingrese nuevamente a la aplicación si es realmente necesario.<br><br><b>2. OBLIGACION DEL USUARIO</b><br><br>El Usuario se obliga a usar la aplicación y los contenidos encontrados en ella de una manera diligente, correcta, lícita y en especial, se compromete a NO realizar las conductas descritas a continuación:<br><br>(a) Utilizar los contenidos con fines o efectos contrarios a la ley,a la moral y a las buenas costumbres generalmente aceptadas o al orden público.<br>(b) Reproducir, copiar, representar, utilizar, distribuir, transformar o modificar los contenidos de la aplicación, por cualquier procedimiento o sobre cualquier soporte, total o parcial, o permitir el acceso del público a través de cualquier modalidad de comunicación pública.<br>(c) Utilizar los contenidos de cualquier manera que conlleven a riesgo de daño o inutilización de la aplicación o de los contenidos o de terceros.<br>(d) Suprimir, eludir o manipular el derecho de autor y demás datos incorporados a los contenidos, así como los dispositivos técnicos de protección, o cualquier mecanismo de información que pudieren tener los contenidos.<br>(e) Emplear los contenidos y en particular, la información de cualquier clase obtenida a través de la aplicación para distribuir, transmitir, remitir, modificar, rehusar o reportar la publicidad o los contenidos de esta con fines de venta directa o con cualquier otra clase de finalidad comercial, mensajes no solicitados dirigidos a una pluralidad de personas con independencia de su finalidad, así como comercializar o divulgar de cualquier modo dicha información.<br>f) Utilizar la aplicación y los contenidos con fines ilícitos, contrarios a lo establecido en estos Términos y Condiciones, o al uso mismo de la aplicación, que sean lesivos de los derechos e intereses de terceros, o que de cualquier forma puedan dañar, inutilizar, sobrecargar o deteriorar la aplicación y los contenidos o impedir la normal utilización o disfrute de esta y de los contenidos por parte de los usuarios.<br><br><b>3. REQUISITOS PARA USO</b><br><br>Las personas o usuarios deben tener en su poder un dispositivo móvil, con un sistema operativo Android o IOS, todos con acceso a internet, la Fundación Grupo Amigos no será responsable por afectaciones que se puedan producir en el dispositivo ni la disponibilidad del servicio.<br><br>1.	REGISTRO DE PERSONA O USUARIO El servicio de la APP es totalmente gratuito, se descargará por medio del sistema Play Store, al ingresar a la APP le solicitará diligenciar formulario de inscripción con datos básicos o lo podrá realizar por cuenta de Facebook.<br>2.	PROGRAMA AMIGO INVERSIONISTA APP “Las Marcas que Marcan Tu Corazón”, son las que tienen presencia a nivel nacional, la afiliación será directamente con nuestro departamento comercial.<br>3.	AFILIACIÓN DE ESTABLECIMIENTOS DE COMEMERCIO LOCAL, los establecimientos de comercio local se registrarán por medio de la página web. www.guiakmymedio.com.co.<br>4.	AFILIACIÓN DE APP ALIADAS la afiliación será directamente con nuestro departamento comercial.<br>5.	AFILIACIÓN DE ALIADOS ESTRATEGICOS la afiliación será directamente con nuestro departamento comercial.<br><br><b>4.	BENEFICIOS DEL INVERSIONISTA </b><br><br>Obtener un Usuario y Contraseña para que con autonomía pueda ingresar a la APP y realizar las actividades de actualización.<br><br>a.	Se le enviara por este mismo medio el CERTIFICADO DE DONACION cada vez que deposite en nuestras cuentas bancarias la donación mensual, obteniendo el beneficio tributario entregado por el gobierno y ser descuente de su declaración de renta de acuerdo al artículo La Ley 1819 de diciembre 29 de 2016.<br>b.	Los PROGRAMA AMIGO INVERSIONISTA APP “Las Marcas que Marcan Tu Corazón” En común acuerdo las marcas podrán participar en los eventos programados por la Fundación como son: Eventos con la población vulnerable, apoyo en los programas de la Fundación, Talleres de capacitación en diferentes áreas, eventos culturales, sociales, deportivos, turismo entre otros. Se les ofrece reconocimiento fotográfico (Marketing Social).<br>c.	Las grandes marcas, establecimientos de comercio local, o empresas, podrán manifestar el querer pautar en nuestros Banner publicitarios y serán atendidos por un Agente Comercial, dicha información será entregada directamente al Inversionista, el valor por la pauta es tomada como donación y será cancelada mensualmente de acuerdo a nuestras políticas comerciales.<br><br><b>5. PROPIEDAD INTELECTUAL</b><br><br>CONTENIDO DE LA INFORMACION. Todo el material informático, gráfico, publicitario, fotográfico, de multimedia, audiovisual y de diseño, así como todos los contenidos, textos y bases de datos puestos a su disposición en esta aplicación están protegidos por derechos de autor y/o propiedad industrial cuyo titular pueden ser los Inversionistas anunciantes, la Fundación Grupo Amigos, o sus compañías filiales, en algunos casos de terceros que han autorizado su uso o explotación. <br><br>Excepto el material libre de compartir en redes sociales como son: La ubicación de un establecimiento de comercio, la actividad promocional, los videoclips, geolocalización entre otras.<br><br>En ningún caso estos Términos y Condiciones confieren derechos, licencias ni autorizaciones para realizar los actos anteriormente prohibidos. Cualquier uso no autorizado de los contenidos constituirá una violación del presente documento y a las normas vigentes sobre derechos de autor, a las normas vigentes nacionales e internacionales sobre Propiedad Industrial, y a cualquier otra que sea aplicable.<br><br><b>6.	LICENCIA PARA USO PERSONAL</b><br><br>Usted podrá leer, visualizar, imprimir, compartir y descargar el material de sus productos.<br><br>Ya sea que se reconozca específicamente o no, las marcas comerciales, las marcas de productos o servicio y los logos visualizados en esta aplicación pertenecen al grupo de compañías AFM GRUPO EMPRESARIAL S.A.S, sus socios promocionales u otros terceros.<br><br><b>7.	INTEGRACIÓN CON OTRAS APLICACIONES</b><br><br>Cuando realizamos vinculación con otras aplicaciones, es por que estamos autorizados por dicha aplicación y por que nos han permitido en el sistema adecuar y alojar dicha aplicación.<br><br>Nuestra aplicación Fundación Grupo Amigos es un medio de comunicación he información entre el usuario y las Aplicación Aliada, donde cada aplicación inscrita responderá por la totalidad del servicio anunciado. Aunque nuestra aplicación trata de suministrar aplicaciones que cumplan con las leyes y regulaciones aplicables y las normas.<br><br><b>8.	CONFIDENCIALIDAD</b><br><br>Con la descarga de la APP Fundación Grupo Amigos, el Usuario y el Inversionista acepta y autoriza que AFM GRUPO EMPRESARIAL S.A.S y a la FUNDACIÓN RED SOCIAL AFM GRUPO AMIGOS.COM, a utilizar sus datos en calidad de responsable del tratamiento para fines derivados de la ejecución de la APP, informa que podrá ejercer sus derechos a conocer, actualizar, rectificar y suprimir su información personal; así como el derecho a revocar el consentimiento otorgado para el tratamiento de datos personales previstos en la ley 1581 de 2012, con el solo hecho de eliminar de su dispositivo la aplicación.<br><br><b>9.	RESPONSABILIDAD DE AFM GRUPO EMPRESARIAL S.A.S Y GUIA KILOMETRO Y MEDIO</b><br><br>Garantiza disponibilidad, continuidad o buen funcionamiento de la aplicación. El operador y la Fundación Grupo Amigos.com podrá bloquear, interrumpir o restringir el acceso a esta cuando lo considere necesario para el mejoramiento de la aplicación o por dada de baja de la misma.<br><br>AFM GRUPO EMPRESARIAL S.A.S y la GUIA KILOMETRO Y MEDIO no será responsable por: a) Fuerza mayor o caso fortuito; b) Por la pérdida, extravío o hurto de su dispositivo móvil que implique el acceso de terceros a la aplicación móvil; c) Por errores en la digitación o accesos por parte del cliente; d) Por los perjuicios, lucro cesante, daño emergente, morales, y en general sumas a cargo de AFM GRUPO EMPRESARIAL S.A.S y de la GUIA KILOMETRO Y MEDIO, por los retrasos, por el incumplimiento de la oferta realizada por el establecimiento de comercio,  no procesamiento de información o suspensión del servicio del operador móvil o daños en los dispositivos móviles.<br><br><b>10.	DENEGACIÓN Y RETIRADA DEL ACCESO A LA APLICACIÓN</b><br><br>Cuando un Usuario y/o el Inversionista incumpla estos Términos y Condiciones, o cualesquiera otras disposiciones que resulten de aplicación, AFM GRUPO EMPRESARIAL S.A.S y la GUIA KILOMETRO Y MEDIO podrá suspender su acceso a la aplicación.<br><br><b>11.	TÉRMINOS Y CONDICIONES</b><br><br>El Usuario acepta expresamente los Términos y Condiciones, siendo condición esencial para la utilización de la aplicación. En el evento en que se encuentre en desacuerdo con estos Términos y Condiciones, AFM GRUPO EMPRESARIAL S.A.S y la GUIA KILOMETRO Y MEDIO podrá modificar los presentes términos y condiciones siempre y cuando no afecte sus intereses o estén en contra de su objeto social, avisando a los usuarios mediante publicación en la página web www.guiakmymedio.com.co o mediante la difusión de las modificación por algún medio electrónico, redes sociales, SMS y/o correo electrónico, siempre y cuando sea necesario.<br><br>De no ser así el usuario y/o inversionista le solicita abandonar la aplicación inmediatamente.<br><br><b>12.	JURISDICCIÓN</b><br><br>Estos términos y condiciones y todo lo que tenga que ver con esta aplicación, se rigen por las leyes colombianas y por efecto de las leyes de los países que tenga cobertura.<br><br><b>13.	USO DE INFORMACIÓN NO PERSONAL</b><br><br>AFM GRUPO EMPRESARIAL S.A.S también recolecta información no personal en forma agregada para seguimiento de datos como el número total de descargas de la aplicación. Utilizamos esta información, que permanece en forma agregada, para entender el comportamiento de la aplicación.<br><br><b>14.	USO DE DIRECCIONES IP</b><br><br>Una dirección de Protocolo de Internet (IP) es un conjunto de números que se asigna automáticamente a su o dispositivo móvil cuando usted accede a su proveedor de servicios de internet, o a través de la red de área local (LAN) de su organización o la red de área amplia (WAN). Los servidores web automáticamente identifican su dispositivo móvil por la dirección IP asignada a él durante la utilización de la APP por motivos de geolocalización.<br><br><b>15.	SEGURIDAD</b><br><br>AFM GRUPO EMPRESARIAL S.A.S está comprometido en la protección segura de su información personal, así como los accesos únicamente al personal y sistemas autorizados, también contra la pérdida, uso indebido y alteración de sus datos de usuario bajo nuestro control. Además, hemos impuesto reglas estrictas a los empleados con acceso a las bases de datos que almacenan información del usuario o a los servidores que hospedan nuestros servicios.</p>';
+					//document.getElementById("lbnombrecontacto_registro").innerHTML = 'Nome del contatto:';
+					//document.getElementById("contacto_registro").placeholder = 'Nome del contatto....';
+					document.getElementById("titulo_pdonaciones").innerHTML = 'Donazioni';
+					document.getElementById("titulo_atras_donaciones").innerHTML = 'Indietro';
+					document.getElementById("txt_email_donaciones").placeholder = 'Posta....';
+					document.getElementById("btbuscar_donaciones").innerHTML = 'Invia donazione';
+					document.getElementById("txt_documento_donaciones").placeholder = '# Documento....';
+					document.getElementById("aespanol").style = '';
+					document.getElementById("aingles").style = '';
+					document.getElementById("aitaliano").style = 'background-color: #B1B4E6;';
+				}
+			}
+			//************************************************
+		</script>
+		<style>
+			#map-canvas{
+				width:100%;
+				height:100%;
+				padding:0;
+				position:absolute !important;
+				top:60px;
+				right:0px;
+				bottom:0px !important;
+				left:0px !important;
+			}
+			#map-canvas-detalle{
+				width:100%;
+				height:105%;
+				padding:0;
+				position:absolute !important;
+				top:40px;
+				right:0px;
+				bottom:0px !important;
+				left:0px !important;
+			}
+		</style>
+		
+        <!-- height:80%; -->
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+	</head>    
+    
+    <body>
+		<!-- Pagina Usuario Final -->
+	<div data-role="page" data-theme="b" id="divisioninicio" onclick="iniciarapp()" style="background: #FFFFFF; background-position: center center; background-repeat: no-repeat; background-attachment: fixed; background-size: 100% 100%;" id="pgLoading" data_ajax="false" data-dom-cache="false">
+	<!--
+	style="background: #FFFFFF url('https://www.guiakmymedio.com.co/webservice_app/splash_icon_.jpg'); background-position: center center; background-repeat: no-repeat; background-attachment: fixed; background-size: 100% 100%;"
+	style="background: #FFFFFF url(https://www.fundaciongrupoamigos.com/webservice_app/splash_icon_.jpg);background-position: center center; background-repeat: no-repeat; background-attachment: fixed; background-size: 100% 100%;" -->
+	</div>
+	<!-- PAGINA PRINCIPAL #568ab7 #d3393e -->
+	<div data-role="page" id="pgPrincipal">
+		<div style="background-color:#FBFBFB" data-role="panel" id="testPanel" data-theme="a" data-position="left" data-display="overlay">
+			<table bgcolor="#FBFBFB" background="img/drawer_bg.png" style="background-repeat: no-repeat;background-size: 100% 140px;border-collapse: collapse;width:100%;height:100px;">
+				<tr>
+					<td><br><a onclick="location.href='#pgOpciones';"><button data-role="none" style="background-color: transparent;border: none;display: inline-block;"><img src="img/tuerca.png" style="width:35px;height:35px;"></button></a></td>
+					<td align="right"><br><a onclick="irabuscar()"><button data-role="none" style="background-color: transparent;border: none;display: inline-block;"><img src="img/ic_search.png" style="width:40px;height:40px;"></button></a></td>
+					<td align="right"><br><a onclick="ejecutar_mapa()"><button data-role="none" style="background-color: transparent;border: none;display: inline-block;"><img src="img/ic_city.svg" style="width:40px;height:40px;"></button></a></td>
+				</tr>
+				<tr>
+					<td align="center"><img src="img/SelloMarketing.gif" style="width:90px; height: 90px;"><!--<img src="img/image_menu.png" style="width:130%;"> --></td>
+				</tr>
+			</table>
+			
+			<ul data-role="listview" data-inset="true" style="width: 105%">
+				<li><a href="https://www.guiakmymedio.com.co/index.php/registra-tu-establecimiento" target="_blank" data-rel="close"><img src="img/REGISTRARMILOCAL.png" class="ui-li-icon ui-corner-none"><div id="registrarmilocal1">Reg. Establecimiento</div></a></li>
+				<li><a onclick="traerestablecimientos('')" data-rel="close"><img src="img/ESTABLECIMIENTOS.png" class="ui-li-icon ui-corner-none"><div id="establecimientos1">Establecimientos</div></a></li>
+				<li><a onclick="traerestablecimientos('FAVORITOS')" data-rel="close"><img src="img/FAVORITOS.png" class="ui-li-icon ui-corner-none"><div id="favoritos1">Favoritos</div></a></li>
+				<li><a onclick="traerestablecimientos('ALIADOS ESTRATEGICOS')" data-rel="close"><img src="img/AliadosEstrategicos.png" class="ui-li-icon ui-corner-none"><div id="aliadosestrategicos1">Aliados Estrategicos</div></a></li>
+				<li><a onclick="traerestablecimientos('FUNDACION ALIADA')" data-rel="close"><img src="img/FUNDACIONESALIADAS.png" class="ui-li-icon ui-corner-none"><div id="fundacionesaliadas1">Fundaciones Aliadas</div></a></li>
+			</ul>
+			<ul data-role="listview" data-inset="true" style="width: 105%">
+				<li><a onclick="traerestablecimientos('ANIMALES Y AGRICULTURA')" data-rel="close"><img src="img/categorias/ANIMALES-11.png" class="ui-li-icon ui-corner-none"><div id="animalesyagricultura1">Animales y Agricultura</div></a></li>
+				<li><a onclick="traerestablecimientos('AUTOPARTES')" data-rel="close"><img src="img/categorias/Autopartes.png" class="ui-li-icon ui-corner-none"><div id="autopartes1">Autopartes</div></a></li>
+				<li><a onclick="traerestablecimientos('BARES Y DISCOTECAS')" data-rel="close"><img src="img/categorias/Bar.png" class="ui-li-icon ui-corner-none"><div id="baresydiscotecas1">Bares y Discotecas</div></a></li>
+				<li><a onclick="traerestablecimientos('BELLEZA Y ESTETICA')" data-rel="close"><img src="img/categorias/Estetica.png" class="ui-li-icon ui-corner-none"><div id="bellezayestetica1">Belleza y Estetica</div></a></li>
+				<li><a onclick="traerestablecimientos('CENTROS COMERCIALES')" data-rel="close"><img src="img/categorias/CentroComercial.png" class="ui-li-icon ui-corner-none"><div id="centroscomerciales1">Centros Comerciales</div></a></li>
+				<li><a onclick="traerestablecimientos('CORRESPONSALES BANCARIOS')" data-rel="close"><img src="img/categorias/BANCO-07.png" class="ui-li-icon ui-corner-none"><div id="bancos1">Co. Bancarios</div></a></li>
+				<li><a onclick="traerestablecimientos('DIVERSION Y AVENTURA')" data-rel="close"><img src="img/categorias/DIVERSION-06.png" class="ui-li-icon ui-corner-none"><div id="diversionyaventura1">Diversión y Aventura</div></a></li>
+				<li><a onclick="traerestablecimientos('EDUCACION')" data-rel="close"><img src="img/categorias/Educacion.png" class="ui-li-icon ui-corner-none"><div id="educacion1">Educación</div></a></li>
+				<li><a onclick="traerestablecimientos('ELEMENTOS DEPORTIVOS')" data-rel="close"><img src="img/categorias/ElementosDeportivos.png" class="ui-li-icon ui-corner-none"><div id="elementosdeportivos1">Elementos Deportivos</div></a></li>
+				<li><a onclick="traerestablecimientos('EMPLEO')" data-rel="close"><img src="img/categorias/Empleo.png" class="ui-li-icon ui-corner-none"><div id="empleo1">Empleo</div></a></li>
+				<li><a onclick="traerestablecimientos('ESTABLECIMIENTOS DE BARRIO')" data-rel="close"><img src="img/categorias/Hogar.png" class="ui-li-icon ui-corner-none"><div id="inmuebles1">Estab. de Barrio</div></a></li>
+				<li><a onclick="traerestablecimientos('ESTACIONES DE SERVICIO')" data-rel="close"><img src="img/categorias/GASOLINERIAS-09.png" class="ui-li-icon ui-corner-none"><div id="bombasdegasolina1">Estac. De Servicio</div></a></li>
+				<!--<li><a onclick="traerestablecimientos('EVENTOS')" data-rel="close"><img src="img/EVENTOS.png" class="ui-li-icon ui-corner-none"><div id="eventos1">Eventos</div></a></li>-->
+				<li><a onclick="traerestablecimientos('FARMACIAS')" data-rel="close"><img src="img/categorias/FARMACIA-02.png" class="ui-li-icon ui-corner-none"><div id="farmacias1">Farmacias</div></a></li>
+				<li><a onclick="traerestablecimientos('GASTRONOMIA')" data-rel="close"><img src="img/categorias/GASTRONOMIA-01.png" class="ui-li-icon ui-corner-none"><div id="gastronomia1">Gastronomia</div></a></li>
+				<li><a onclick="traerestablecimientos('GIROS Y ENTREGAS')" data-rel="close"><img src="img/categorias/GIROS Y ENTREGAS-08.png" class="ui-li-icon ui-corner-none"><div id="girosyentregas1">Giros y Entregas</div></a></li>
+				<li><a onclick="traerestablecimientos('PRODUCTOS Y HOGAR')" data-rel="close"><img src="img/categorias/Hogar.png" class="ui-li-icon ui-corner-none"><div id="productosyhogar1">Productos y Hogar</div></a></li>
+				<li><a onclick="traerestablecimientos('HOTELES')" data-rel="close"><img src="img/categorias/Hotel.png" class="ui-li-icon ui-corner-none"><div id="hoteles1">Hoteles</div></a></li>
+				<li><a onclick="traerestablecimientos('ROPA Y ACCESORIOS')" data-rel="close"><img src="img/categorias/ROPA-03.png" class="ui-li-icon ui-corner-none"><div id="ropayaccesorios1">Ropa y Accesorios</div></a></li>
+				<li><a onclick="traerestablecimientos('SALUD Y BIENESTAR')" data-rel="close"><img src="img/categorias/Bienestar.png" class="ui-li-icon ui-corner-none"><div id="saludybienestar1">Salud y Bienestar</div></a></li>
+				<li><a onclick="traerestablecimientos('SUPERMERCADOS')" data-rel="close"><img src="img/categorias/SUPERMERCADO-04.png" class="ui-li-icon ui-corner-none"><div id="supermercados1">Supermercados</div></a></li>
+				<li><a onclick="traerestablecimientos('TECNOLOGIA')" data-rel="close"><img src="img/categorias/TECNOLOGIA-05.png" class="ui-li-icon ui-corner-none"><div id="tecnologia1">Tecnologia</div></a></li>
+				<li><a onclick="traerestablecimientos('TURISMO')" data-rel="close"><img src="img/categorias/Turismo.png" class="ui-li-icon ui-corner-none"><div id="turismo1">Turismo</div></a></li>
+				<li><a onclick="traerestablecimientos('OTROS')" data-rel="close"><img src="img/logo.png" class="ui-li-icon ui-corner-none"><div id="otros1">Otros</div></a></li>
+			</ul>
+		</div>
+		<!--menu popup derecho usuario-->
+		<div data-role="popup" id="MiCuenta" data-theme="a" data-arrow="t" style="border-style:none;">
+			<font color="#848484">
+				<ul data-role="listview" data-inset="true">
+					<li>
+						<a href="#pgOpciones" style="background: #ffffff;border-style:none;" data-rel="close"><div id="opciones1">Opciones</div></a>
+					</li>
+					<!--<li>
+						<a href="#pgDonaciones" style="background: #ffffff;border-style:none;" data-rel="close"><div id="donaciones1">Donaciones</div></a>
+					</li>-->
+					<li>
+						<a href="#pgAcercaDe" style="background: #ffffff;border-style:none;" data-rel="close"><div id="acercadelafundacion1">Acera De</div></a>
+					</li>
+					<li>
+						<a href="https://guiakmymedio.com.co/index.php?option=com_content&view=article&id=29" style="background: #ffffff;border-style:none;" data-rel="close" target="_blank">FAQ's</a>
+					</li>
+				</ul>
+			</font>
+		</div>
+		<!-- menu popup derecho usuario -->
+		<div data-role="header" ><br>
+		  <h1><div id="tituloprincipal">Establecimientos</div></h1>
+		  <a href="#testPanel" data-role="button" data-icon="bars" style="top: 40%;">Menu</a>
+			<a href="#MiCuenta" data-rel="popup" style="float:right; background: transparent; text-decoration: none;top: 40%;"><img src="img/57013.png" height="16px" width="23px" style="background: transparent; align='center';border-radius:50%;">
+			</a>
+		</div>
+		<div data-role="content">
+			<center>
+				<div id="opciones"></div>
+			</center>
+		</div>
+		<div data-role="footer" data-position="fixed">
+		  <h4>Copyright 2020</h4>
+		</div>
+	</div>
+	
+	<div data-role="page" id="pgMapa">
+		<div style="background-color:#FBFBFB" data-role="panel" id="testPanel1" data-theme="a" data-position="left" data-display="overlay">
+			<table bgcolor="#FBFBFB" background="img/drawer_bg.png" style="background-repeat: no-repeat;background-size: 100% 140px;border-collapse: collapse;width:100%;height:100px;">
+				<tr>
+					<td><br><a onclick="location.href='#pgOpciones';"><button data-role="none" style="background-color: transparent;border: none;display: inline-block;"><img src="img/tuerca.png" style="width:35px;height:35px;"></button></a></td>
+					<td align="right"><br><a onclick="irabuscar()"><button data-role="none" style="background-color: transparent;border: none;display: inline-block;"><img src="img/ic_search.png" style="width:40px;height:40px;"></button></a></td>
+					<td align="right"><br><a onclick="ejecutar_mapa()"><button data-role="none" style="background-color: transparent;border: none;display: inline-block;"><img src="img/ic_city.svg" style="width:40px;height:40px;"></button></a></td>
+				</tr>
+				<tr>
+					<td align="center"><img src="img/SelloMarketing.gif" style="width:90px; height: 90px;"><!--<img src="img/image_menu.png" style="width:130%;"> --></td>
+				</tr>
+			</table>
+			
+			<ul data-role="listview" data-inset="true" style="width: 105%">
+				<li><a href="https://www.guiakmymedio.com.co/index.php/registra-tu-establecimiento" target="_blank" data-rel="close"><img src="img/REGISTRARMILOCAL.png" class="ui-li-icon ui-corner-none"><div id="registrarmilocal2">Reg. Establecimiento</div></a></li>
+				<li><a onclick="traerestablecimientos('')" data-rel="close"><img src="img/ESTABLECIMIENTOS.png" class="ui-li-icon ui-corner-none"><div id="establecimientos2">Establecimientos</div></a></li>
+				<li><a onclick="traerestablecimientos('FAVORITOS')" data-rel="close"><img src="img/FAVORITOS.png" class="ui-li-icon ui-corner-none"><div id="favoritos2">Favoritos</div></a></li>
+				<li><a onclick="traerestablecimientos('ALIADOS ESTRATEGICOS')" data-rel="close"><img src="img/AliadosEstrategicos.png" class="ui-li-icon ui-corner-none"><div id="aliadosestrategicos2">Aliados Estrategicos</div></a></li>
+				<li><a onclick="traerestablecimientos('FUNDACION ALIADA')" data-rel="close"><img src="img/FUNDACIONESALIADAS.png" class="ui-li-icon ui-corner-none"><div id="fundacionesaliadas2">Fundaciones Aliadas</div></a></li>
+			</ul>
+			<ul data-role="listview" data-inset="true" style="width: 105%">
+				<li><a onclick="traerestablecimientos('ANIMALES Y AGRICULTURA')" data-rel="close"><img src="img/categorias/ANIMALES-11.png" class="ui-li-icon ui-corner-none"><div id="animalesyagricultura2">Animales y Agricultura</div></a></li>
+				<li><a onclick="traerestablecimientos('AUTOPARTES')" data-rel="close"><img src="img/categorias/Autopartes.png" class="ui-li-icon ui-corner-none"><div id="autopartes2">Autopartes</div></a></li>
+				<li><a onclick="traerestablecimientos('BARES Y DISCOTECAS')" data-rel="close"><img src="img/categorias/Bar.png" class="ui-li-icon ui-corner-none"><div id="baresydiscotecas2">Bares y Discotecas</div></a></li>
+				<li><a onclick="traerestablecimientos('BELLEZA Y ESTETICA')" data-rel="close"><img src="img/categorias/Estetica.png" class="ui-li-icon ui-corner-none"><div id="bellezayestetica2">Belleza y Estetica</div></a></li>
+				<li><a onclick="traerestablecimientos('CENTROS COMERCIALES')" data-rel="close"><img src="img/categorias/CentroComercial.png" class="ui-li-icon ui-corner-none"><div id="centroscomerciales2">Centros Comerciales</div></a></li>
+				<li><a onclick="traerestablecimientos('CORRESPONSALES BANCARIOS')" data-rel="close"><img src="img/categorias/BANCO-07.png" class="ui-li-icon ui-corner-none"><div id="bancos2">Co. Bancarios</div></a></li>
+				<li><a onclick="traerestablecimientos('DIVERSION Y AVENTURA')" data-rel="close"><img src="img/categorias/DIVERSION-06.png" class="ui-li-icon ui-corner-none"><div id="diversionyaventura2">Diversión y Aventura</div></a></li>
+				<li><a onclick="traerestablecimientos('EDUCACION')" data-rel="close"><img src="img/categorias/Educacion.png" class="ui-li-icon ui-corner-none"><div id="educacion2">Educación</div></a></li>
+				<li><a onclick="traerestablecimientos('ELEMENTOS DEPORTIVOS')" data-rel="close"><img src="img/categorias/ElementosDeportivos.png" class="ui-li-icon ui-corner-none"><div id="elementosdeportivos2">Elementos Deportivos</div></a></li>
+				<li><a onclick="traerestablecimientos('EMPLEO')" data-rel="close"><img src="img/categorias/Empleo.png" class="ui-li-icon ui-corner-none"><div id="empleo2">Empleo</div></a></li>
+				<li><a onclick="traerestablecimientos('ESTABLECIMIENTOS DE BARRIO')" data-rel="close"><img src="img/categorias/Hogar.png" class="ui-li-icon ui-corner-none"><div id="inmuebles2">Estab. de Barrio</div></a></li>
+				<li><a onclick="traerestablecimientos('ESTACIONES DE SERVICIO')" data-rel="close"><img src="img/categorias/GASOLINERIAS-09.png" class="ui-li-icon ui-corner-none"><div id="bombasdegasolina2">Estac. De Servicio</div></a></li>
+				<!--<li><a onclick="traerestablecimientos('EVENTOS')" data-rel="close"><img src="img/EVENTOS.png" class="ui-li-icon ui-corner-none"><div id="eventos2">Eventos</div></a></li>-->
+				<li><a onclick="traerestablecimientos('FARMACIAS')" data-rel="close"><img src="img/categorias/FARMACIA-02.png" class="ui-li-icon ui-corner-none"><div id="farmacias2">Farmacias</div></a></li>
+				<li><a onclick="traerestablecimientos('GASTRONOMIA')" data-rel="close"><img src="img/categorias/GASTRONOMIA-01.png" class="ui-li-icon ui-corner-none"><div id="gastronomia2">Gastronomia</div></a></li>
+				<li><a onclick="traerestablecimientos('GIROS Y ENTREGAS')" data-rel="close"><img src="img/categorias/GIROS Y ENTREGAS-08.png" class="ui-li-icon ui-corner-none"><div id="girosyentregas2">Giros y Entregas</div></a></li>
+				<li><a onclick="traerestablecimientos('PRODUCTOS Y HOGAR')" data-rel="close"><img src="img/categorias/Hogar.png" class="ui-li-icon ui-corner-none"><div id="productosyhogar2">Productos y Hogar</div></a></li>
+				<li><a onclick="traerestablecimientos('HOTELES')" data-rel="close"><img src="img/categorias/Hotel.png" class="ui-li-icon ui-corner-none"><div id="hoteles2">Hoteles</div></a></li>
+				<li><a onclick="traerestablecimientos('ROPA Y ACCESORIOS')" data-rel="close"><img src="img/categorias/ROPA-03.png" class="ui-li-icon ui-corner-none"><div id="ropayaccesorios2">Ropa y Accesorios</div></a></li>
+				<li><a onclick="traerestablecimientos('SALUD Y BIENESTAR')" data-rel="close"><img src="img/categorias/Bienestar.png" class="ui-li-icon ui-corner-none"><div id="saludybienestar2">Salud y Bienestar</div></a></li>
+				<li><a onclick="traerestablecimientos('SUPERMERCADOS')" data-rel="close"><img src="img/categorias/SUPERMERCADO-04.png" class="ui-li-icon ui-corner-none"><div id="supermercados2">Supermercados</div></a></li>
+				<li><a onclick="traerestablecimientos('TECNOLOGIA')" data-rel="close"><img src="img/categorias/TECNOLOGIA-05.png" class="ui-li-icon ui-corner-none"><div id="tecnologia2">Tecnologia</div></a></li>
+				<li><a onclick="traerestablecimientos('TURISMO')" data-rel="close"><img src="img/categorias/Turismo.png" class="ui-li-icon ui-corner-none"><div id="turismo2">Turismo</div></a></li>
+				<li><a onclick="traerestablecimientos('OTROS')" data-rel="close"><img src="img/logo.png" class="ui-li-icon ui-corner-none"><div id="otros2">Otros</div></a></li>
+			</ul>
+		</div>
+		<div data-role="header"><br>
+		  <h1><div id="eltitulodelmapa">Establecimientos</div></h1>
+		  <a href="#testPanel1" data-role="button" style="top: 40%" data-icon="bars">Menu</a>
+		</div>
+		<div data-role="content">
+			<center><br>
+				<table style="width:100%;height:100%;">
+					<tr>
+						<td align="center"><div id="map-canvas"></div></td>
+					</tr>
+				</table>
+			</center>
+		</div>
+		<div data-role="footer" data-position="fixed">
+		  <h4>Copyright 2020</h4>
+		</div>
+	</div>
+	<div data-role="page" id="pgMapaDelDetalle">
+		<div data-role="header" data-position="fixed">
+		  <h1></h1>
+		  <a onclick="location.href='#pgDetalle';" class="ui-btn ui-corner-all ui-btn-inline ui-mini footer-button-left ui-btn-icon-left ui-icon-power"></a>
+		</div>
+		<div data-role="content">
+			<center>
+				<table style="width:100%;height:100%;">
+					<tr>
+						<td align="center"><div id="map-canvas-detalle"></div></td>
+					</tr>
+				</table>
+			</center>
+		</div>
+		<div data-role="footer" data-position="fixed">
+		  <h4>Copyright 2020</h4>
+		</div>
+	</div>
+	
+	
+	
+	<div data-role="page" id="pgDetalle">
+		<div style="background-color:#FBFBFB" data-role="panel" id="testPanel2" data-theme="a" data-position="left" data-display="overlay">
+			<table bgcolor="#FBFBFB" background="img/drawer_bg.png" style="background-repeat: no-repeat;background-size: 100% 140px;border-collapse: collapse;width:100%;height:100px;">
+				<tr>
+					<td><br><a onclick="location.href='#pgOpciones';"><button data-role="none" style="background-color: transparent;border: none;display: inline-block;"><img src="img/tuerca.png" style="width:35px;height:35px;"></button></a></td>
+					<td align="right"><br><a onclick="irabuscar()"><button data-role="none" style="background-color: transparent;border: none;display: inline-block;"><img src="img/ic_search.png" style="width:40px;height:40px;"></button></a></td>
+					<td align="right"><br><a onclick="ejecutar_mapa()"><button data-role="none" style="background-color: transparent;border: none;display: inline-block;"><img src="img/ic_city.svg" style="width:40px;height:40px;"></button></a></td>
+				</tr>
+				<tr>
+					<td align="center"><img src="img/SelloMarketing.gif" style="width:90px; height: 90px;"><!--<img src="img/image_menu.png" style="width:130%;"> --></td>
+				</tr>
+			</table>
+			
+			<ul data-role="listview" data-inset="true" style="width: 105%">
+				<li><a href="https://www.guiakmymedio.com.co/index.php/registra-tu-establecimiento" target="_blank" data-rel="close"><img src="img/REGISTRARMILOCAL.png" class="ui-li-icon ui-corner-none"><div id="registrarmilocal3">Reg. Establecimiento</div></a></li>
+				<li><a onclick="traerestablecimientos('')" data-rel="close"><img src="img/ESTABLECIMIENTOS.png" class="ui-li-icon ui-corner-none"><div id="establecimientos3">Establecimientos</div></a></li>
+				<li><a onclick="traerestablecimientos('FAVORITOS')" data-rel="close"><img src="img/FAVORITOS.png" class="ui-li-icon ui-corner-none"><div id="favoritos3">Favoritos</div></a></li>
+				<li><a onclick="traerestablecimientos('ALIADOS ESTRATEGICOS')" data-rel="close"><img src="img/AliadosEstrategicos.png" class="ui-li-icon ui-corner-none"><div id="aliadosestrategicos3">Aliados Estrategicos</div></a></li>
+				<li><a onclick="traerestablecimientos('FUNDACION ALIADA')" data-rel="close"><img src="img/FUNDACIONESALIADAS.png" class="ui-li-icon ui-corner-none"><div id="fundacionesaliadas3">Fundaciones Aliadas</div></a></li>
+			</ul>
+			<ul data-role="listview" data-inset="true" style="width: 105%">
+				<li><a onclick="traerestablecimientos('ANIMALES Y AGRICULTURA')" data-rel="close"><img src="img/categorias/ANIMALES-11.png" class="ui-li-icon ui-corner-none"><div id="animalesyagricultura3">Animales y Agricultura</div></a></li>
+				<li><a onclick="traerestablecimientos('AUTOPARTES')" data-rel="close"><img src="img/categorias/Autopartes.png" class="ui-li-icon ui-corner-none"><div id="autopartes3">Autopartes</div></a></li>
+				<li><a onclick="traerestablecimientos('BARES Y DISCOTECAS')" data-rel="close"><img src="img/categorias/Bar.png" class="ui-li-icon ui-corner-none"><div id="baresydiscotecas3">Bares y Discotecas</div></a></li>
+				<li><a onclick="traerestablecimientos('BELLEZA Y ESTETICA')" data-rel="close"><img src="img/categorias/Estetica.png" class="ui-li-icon ui-corner-none"><div id="bellezayestetica3">Belleza y Estetica</div></a></li>
+				<li><a onclick="traerestablecimientos('CENTROS COMERCIALES')" data-rel="close"><img src="img/categorias/CentroComercial.png" class="ui-li-icon ui-corner-none"><div id="centroscomerciales3">Centros Comerciales</div></a></li>
+				<li><a onclick="traerestablecimientos('CORRESPONSALES BANCARIOS')" data-rel="close"><img src="img/categorias/BANCO-07.png" class="ui-li-icon ui-corner-none"><div id="bancos3">Co. Bancarios</div></a></li>
+				<li><a onclick="traerestablecimientos('DIVERSION Y AVENTURA')" data-rel="close"><img src="img/categorias/DIVERSION-06.png" class="ui-li-icon ui-corner-none"><div id="diversionyaventura3">Diversión y Aventura</div></a></li>
+				<li><a onclick="traerestablecimientos('EDUCACION')" data-rel="close"><img src="img/categorias/Educacion.png" class="ui-li-icon ui-corner-none"><div id="educacion3">Educación</div></a></li>
+				<li><a onclick="traerestablecimientos('ELEMENTOS DEPORTIVOS')" data-rel="close"><img src="img/categorias/ElementosDeportivos.png" class="ui-li-icon ui-corner-none"><div id="elementosdeportivos3">Elementos Deportivos</div></a></li>
+				<li><a onclick="traerestablecimientos('EMPLEO')" data-rel="close"><img src="img/categorias/Empleo.png" class="ui-li-icon ui-corner-none"><div id="empleo3">Empleo</div></a></li>
+				<li><a onclick="traerestablecimientos('ESTABLECIMIENTOS DE BARRIO')" data-rel="close"><img src="img/categorias/Hogar.png" class="ui-li-icon ui-corner-none"><div id="inmuebles3">Estab. de Barrio</div></a></li>
+				<li><a onclick="traerestablecimientos('ESTACIONES DE SERVICIO')" data-rel="close"><img src="img/categorias/GASOLINERIAS-09.png" class="ui-li-icon ui-corner-none"><div id="bombasdegasolina3">Estac. De Servicio</div></a></li>
+				<!--<li><a onclick="traerestablecimientos('EVENTOS')" data-rel="close"><img src="img/EVENTOS.png" class="ui-li-icon ui-corner-none"><div id="eventos3">Eventos</div></a></li>-->
+				<li><a onclick="traerestablecimientos('FARMACIAS')" data-rel="close"><img src="img/categorias/FARMACIA-02.png" class="ui-li-icon ui-corner-none"><div id="farmacias3">Farmacias</div></a></li>
+				<li><a onclick="traerestablecimientos('GASTRONOMIA')" data-rel="close"><img src="img/categorias/GASTRONOMIA-01.png" class="ui-li-icon ui-corner-none"><div id="gastronomia3">Gastronomia</div></a></li>
+				<li><a onclick="traerestablecimientos('GIROS Y ENTREGAS')" data-rel="close"><img src="img/categorias/GIROS Y ENTREGAS-08.png" class="ui-li-icon ui-corner-none"><div id="girosyentregas3">Giros y Entregas</div></a></li>
+				<li><a onclick="traerestablecimientos('PRODUCTOS Y HOGAR')" data-rel="close"><img src="img/categorias/Hogar.png" class="ui-li-icon ui-corner-none"><div id="productosyhogar3">Productos y Hogar</div></a></li>
+				<li><a onclick="traerestablecimientos('HOTELES')" data-rel="close"><img src="img/categorias/Hotel.png" class="ui-li-icon ui-corner-none"><div id="hoteles3">Hoteles</div></a></li>
+				<li><a onclick="traerestablecimientos('ROPA Y ACCESORIOS')" data-rel="close"><img src="img/categorias/ROPA-03.png" class="ui-li-icon ui-corner-none"><div id="ropayaccesorios3">Ropa y Accesorios</div></a></li>
+				<li><a onclick="traerestablecimientos('SALUD Y BIENESTAR')" data-rel="close"><img src="img/categorias/Bienestar.png" class="ui-li-icon ui-corner-none"><div id="saludybienestar3">Salud y Bienestar</div></a></li>
+				<li><a onclick="traerestablecimientos('SUPERMERCADOS')" data-rel="close"><img src="img/categorias/SUPERMERCADO-04.png" class="ui-li-icon ui-corner-none"><div id="supermercados3">Supermercados</div></a></li>
+				<li><a onclick="traerestablecimientos('TECNOLOGIA')" data-rel="close"><img src="img/categorias/TECNOLOGIA-05.png" class="ui-li-icon ui-corner-none"><div id="tecnologia3">Tecnologia</div></a></li>
+				<li><a onclick="traerestablecimientos('TURISMO')" data-rel="close"><img src="img/categorias/Turismo.png" class="ui-li-icon ui-corner-none"><div id="turismo3">Turismo</div></a></li>
+				<li><a onclick="traerestablecimientos('OTROS')" data-rel="close"><img src="img/logo.png" class="ui-li-icon ui-corner-none"><div id="otros3">Otros</div></a></li>
+			</ul>
+		</div>
+		<div data-role="header" ><br><!--data-position="fixed"-->
+		  <h1><div id="titulo_pgdetalle">Detalle</div></h1>
+		  <a href="#testPanel2" data-role="button" data-icon="bars" data-iconpos="" style="top: 40%;">Menú</a>
+		</div>
+		<div data-role="content">
+			<center>
+				<table width="100%">
+					<tr>
+						<td align="center"></td>
+					</tr>
+					<tr>
+						<td align="center">
+							<div id="detalle_establecimiento"></div>
+							<table style="width:100%;">
+								<tr>
+									<td><div id="titulodetalle_mapa">Como llegar al establecimiento</div></td>
+								</tr>
+								<tr>
+									<td>
+										<div id="map-detalle" style="width:100%;height:200px;">
+											
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td><div id="opcionesdelmapa"></div></td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</center>
+		</div>
+		<div data-role="footer" data-position="fixed">
+		  <h4>Copyright 2020</h4>
+		</div>
+	</div>
+	<div data-role="page" id="pgAcercaDe">
+		<div data-role="header" ><br><!-- data-position="fixed"-->
+		  <h1><div id="titulo_acercade">Acerca De</div></h1>
+		  <a onclick="traerestablecimientos('')" class="ui-btn ui-corner-all ui-btn-inline ui-mini footer-button-left ui-btn-icon-left ui-icon-power" style="top: 40%;"><div id="titulo_atras5">Atrás</div></a>
+		</div>
+		<div data-role="content">
+			<center>
+				<table width="100%">
+					<tr>
+						<td align="center"></td>
+					</tr>
+					<tr>
+						<td align="center"><div id="texto_acercade">Gracias por descargar nuestra APP <br><br> ¡!SABÍA USTED¡¡ <br><br><p align="justify"> - Que viendo los videos de nuestras MARCAS RESPONSABLES contribuye a que las empresas se motiven a realizar más acciones que nos permitan generar positivamente cambios Sociales, Ambientales y Económicos. <br> - Que nuestras promociones publicadas fortalecen las cadenas productivas de nuestras marcas, generando mayor empleo y ofreciéndole a nuestros usuarios mejora su economía individual y generar mayor capacidad de ahorro. <br> - Que utilizando nuestra APP con todos sus beneficios nos permite que nuestros INVERSIONISTAS nos apoyen en el desarrollo de nuestros programas.</p></div></td>
+					</tr>
+				</table>
+			</center>
+		</div>
+		<div data-role="footer" data-position="fixed">
+		  <h4>Copyright 2020</h4>
+		</div>
+	</div>	
+	<div data-role="page" id="pgBuscar">
+		<div data-role="header"><br><!--  data-position="fixed" -->
+		  <h1 align="center"><div id="titulo_pbuscar">Buscar</div></h1>
+		  <a onclick="traerestablecimientos('')" class="ui-btn ui-corner-all ui-btn-inline ui-mini footer-button-left ui-btn-icon-left ui-icon-power" style="top: 40%;"><div id="titulo_atras2">Atrás</div></a>
+		</div>
+		<div data-role="content">
+			<center>
+				<table align="center" style="width:100%;"><tr><td style="width:80%;"><input type="text" class="form-control-sm" data-role="none" id="txt_busqueda" name="txt_busqueda" placeholder="Buscar..." style="width:100%;"></td><td style="width:20%;"><button type="button" onclick="traerbusqueda()" class="btn btn-primary" style="width:100%;" data-role="none"><div id="btbuscar_busqueda">Buscar</div></button></td></tr></table>
+				<div id="divbusqueda"></div>
+			</center>
+		</div>
+		<div data-role="footer" data-position="fixed">
+		  <!--<h4>Copyright 2020</h4>-->
+		</div>
+	</div>
+	<div data-role="page" id="pgDonaciones">
+		<div data-role="header" data-position="fixed">
+		  <h1 align="center"><div id="titulo_pdonaciones">Donaciones</div></h1>
+		  <a onclick="traerestablecimientos('')" class="ui-btn ui-corner-all ui-btn-inline ui-mini footer-button-left ui-btn-icon-left ui-icon-power"><div id="titulo_atras_donaciones">Atrás</div></a>
+		</div>
+		<div data-role="content">
+			<center>
+				<table align="center" style="width:100%;">
+					<tr>
+						<td style="width:100%;">
+							<select id="valoradonar" name="valoradonar" class="form-control" data-role="none">
+								<option value="">Seleccione....</option>
+								<option value="10000">$10.000</option>
+								<option value="30000">$30.000</option>
+								<option value="50000">$50.000</option>
+								<option value="80000">$80.000</option>
+								<option value="100000">$100.000</option>
+								<option value="150000">$150.000</option>
+								<option value="170000">$170.000</option>
+								<option value="200000">$200.000</option>
+								<option value="otro">Otro Valor</option>
+							</select>
+							<!--<select id="valoradonar" name="valoradonar" class="form-control" data-role="none">
+								<option value="">Seleccione....</option>
+								<option value="52500">Amigo Inversionista establecimiento ($52.500)</option>
+								<option value="157500">Amigo Emprendedor ($157.500)</option>
+								<option value="31500">Yo comparto tu también ($31.500)</option>
+								<option value="105000">Amigo Árbol con voluntario ($105.000)</option>
+								<option value="52500">Amigo Árbol sin voluntario ($52.500)</option>
+								<option value="52500">Otros Programas ($52.500)</option>
+							</select>-->
+						</td>
+					</tr>
+					<tr>
+						<td style="width:100%;">
+							Si el valor es Otro Valor, Digitalo En La Siguiente Casilla
+						</td>
+					</tr>
+					<tr>
+						<td style="width:100%;">
+							<input type="number" class="form-control-sm" data-role="none" id="txt_otrovalor_donaciones" name="txt_otrovalor_donaciones" placeholder="Otro Valor...." style="width:100%;">
+						</td>
+					</tr>
+					<tr>
+						<td style="width:100%;">
+							<input type="number" class="form-control-sm" data-role="none" id="txt_documento_donaciones" name="txt_documento_donaciones" placeholder="# Documento...." style="width:100%;">
+						</td>
+					</tr>
+					<tr>
+						<td style="width:100%;">
+							<input type="text" class="form-control-sm" data-role="none" id="txt_email_donaciones" name="txt_email_donaciones" placeholder="Tu Email...." style="width:100%;">
+						</td>
+					</tr>
+					<tr>
+						<td style="width:20%;">
+							<button type="button" onclick="enviar_donacion()" class="btn btn-primary" style="width:100%;" data-role="none">
+								<div id="btbuscar_donaciones">Enviar Donación</div>
+							</button>
+						</td>
+					</tr>
+				</table>
+				<div id="divdonacionesresult"></div>
+				<form method="post" name="porfin" action="https://checkout.payulatam.com/ppp-web-gateway-payu/" target="_blank">
+				  <input name="merchantId" id="merchantId"   type="hidden"  value="828941"   >
+				  <input name="accountId" id="accountId"     type="hidden"  value="836246" >
+				  <input name="description" id="description"   type="hidden"  value="Donacion Desde APP Movil"  >
+				  <input name="referenceCode" id="referenceCode" type="hidden">
+				  <input name="amount" id="amount"        type="hidden">
+				  <input name="currency" id="currency"      type="hidden"  value="COP" >
+				  <input name="signature" id="signature"     type="hidden"  >
+				  <input name="buyerEmail" id="buyerEmail"    type="hidden"  >
+				  <input name="responseUrl" id="responseUrl"    type="hidden"  value="https://www.guiakmymedio.com.co/">
+				  <input name="confirmationUrl" id="confirmationUrl"    type="hidden"  value="https://www.guiakmymedio.com.co/">
+				  <input name="tax" id="tax"           type="hidden"  value="0"  >
+				  <input name="taxReturnBase" id="taxReturnBase" type="hidden"  value="0" >
+				</form>
+				
+			</center>
+		</div>
+		<div data-role="footer" data-position="fixed">
+		  <!--<h4>Copyright 2020</h4>-->
+		</div>
+	</div>
+	<div data-role="page" id="pgOpciones">
+		<div data-role="header"><br><!--data-position="fixed"-->
+		  <h1 align="center">Opciones</h1>
+		  <a onclick="traerestablecimientos('')" class="ui-btn ui-corner-all ui-btn-inline ui-mini footer-button-left ui-btn-icon-left ui-icon-power" style="top: 40%;"><div id="titulo_atras3">Atrás</div></a>
+		</div>
+		<div data-role="content">
+			<center>
+				<ul data-role="listview" data-inset="true">
+					<li>
+						<h2><div id="textpoliticas1">Desarrollado Por</div></h2>
+						<div id="textpoliticas2"><p>Guia Kilometro Y Medio</p></div>
+					</li>
+					<li>
+						<h2><div id="textpoliticas1">Copyright</div></h2>
+						<div id="textpoliticas2"><p>Cooyright 2020 Guia Kilometro Y Medio - All right reserved</p></div>
+					</li>
+					<li>
+						<a href="#pgPrivacidad">
+							<img src="img/politicas.png" style="height:95%;width:95%">
+							<h2><div id="textpoliticas1">Politicas de Privacidad</div></h2>
+							<div id="textpoliticas2"><p>Politicas de Privacidad</p></div>
+						</a>
+					</li>
+					<li>
+						<a href="#pgIdiomas">
+							<img src="img/idiomas.png" style="height:95%;width:95%">
+							<h2><div id="textoidioma1">Idioma</div></h2>
+							<div id="textoidioma2"><p>Idioma</p></div>
+						</a>
+					</li>
+				</ul>
+			</center>
+		</div>
+		<div data-role="footer" data-position="fixed">
+		  <!--<h4>Copyright 2020</h4>-->
+		</div>
+	</div>
+	<div data-role="page" id="pgPrivacidad">
+		<div data-role="header" data-position="fixed">
+		  <h1 align="center"><div id="titulo_politicas">Politicas</div></h1>
+		  <!--<a onclick="traerestablecimientos('')" class="ui-btn ui-corner-all ui-btn-inline ui-mini footer-button-left ui-btn-icon-left ui-icon-power"><div id="inicio_pgprivacidad">Inicio</div></a>-->
+		</div>
+		<div data-role="content">
+			<center>
+					<div id="textodelapublicidad">
+						<p align="justify" style="width:100%;">
+					<b>Descarga la APP GRATUITAMENTE e Ingresa
+y Aprovecha de Nuestros Beneficios</b><br><br>
+
+<b>Guía KM ½ RS "Responsabilidad Social"</b><br><br>
+
+Nuestra Aplicación Móvil GUIA KM1/2 RS, es un medio publicitario que promueve a todas aquellas empresas y marcas que influyen dentro de nuestra sociedad como gestores de transformación de nuestro entorno social, económico y ambiental, y su vez, sus puntos de venta a nivel nacional con sus actividades promocionales con sentido social.<br><br>
+
+<b>USUARIOS Y CONSUMIDORES SOCIALMENTE RESPONSABLES</b><br><br>
+
+Nuestro medio publicitario va dirigido aquellos usuarios u consumidores que estén interesados en conocer la Responsabilidad Social (RS), y deseen contribuir adquiriendo productos y servicios en promoción que impacten positivamente a mejorar nuestra calidad vida y nuestro entorno.
+Nuestra GUÍA te informa de los puntos de venta más cercanos a tú ubicación en un radio de kilómetro y medio.<br><br>
+
+Entre sus contenidos el usuario disfrutará de:<br><br>
+
+- Grandes historias de Responsabilidad Social de las empresas, marcas y fundaciones.<br>
+- De las personas que hacen de su vida todo un cuento social u ambiental.<br>
+- Entrevistas con personalidades comprometidas con la Responsabilidad Social.<br>
+- Información sobre medio ambiente.<br>
+- Leyes o normas de responsabilidad social y toda información que sea relevante.<br><br>
+
+<b>NUESTRA GUÍA ESTA CONFORMADA POR:</b><br><br>
+
+- 62.000 puntos de venta a nivel<br>
+- 9 categorías de Comercio: Banco, Bombas de Gasolina, Farmacias, Gastronomía, Giros y Entregas, Ropa y Accesorios, Tecnología y próximamente otras categorías.<br>
+- Más de 300 Marcas.<br>
+- Promovemos gratuitamente a más de 5.000 Fundaciones a nivel nacional.<br>
+  Nuestro usuario podrá:<br>
+- Adquirir promociones de productos y servicios con sentido social y ambiental<br>
+- Pedir a domicilio directamente a la marca<br>
+- Conocer los horarios de atención<br>
+- Mapa de las diferentes formas de cómo llegar al punto de venta<br>
+- Compartir en redes sociales.<br><br>
+
+<b>INFORMACIÓN DE PUNTO DE VENTA SELECIONADO</b><br><br>
+
+- Información relevante como: Redes sociales, logo, horarios, Dirección, Teléfono, web.<br>
+- Video de responsabilidad social de la marca<br>
+- Video Social y ambiental<br>
+- Mapa de cómo llegar al punto de venta<br>
+- Próximamente, promociones con sentido social<br>
+- Participa de nuestras actividades<br><br>
+
+<b>ADICIONALMENTE PODRÁS: </b><br><br>
+
+• Calificar la promoción por su contribución social y ambiental<br>
+• Encontrar una marca especifica por el motor de búsqueda<br>
+• Seleccionar establecimientos favoritos<br>
+• Tres Idiomas (español, inglés e italiano)<br>
+• Disfrutar de una interface atractiva, rápida, eficaz<br>
+• Una categoría especial para las pequeñas y mediana Fundaciones y el usuario conozca de las más cercanas de su sector, para que contacte y contribuyan de diversas formas en el desarrollo de sus actividades.<br><br>
+
+Un diseño con gran cobertura para smartphone de plataforma Android, que permite acceder de forma rápida y eficaz a su pantalla con un solo clic.<br><br>
+
+!!Descárgala ya¡¡, ¿QUE ESPERAS? Sé parte de comunidad de responsabilidad social y contribuye a mejorar nuestra calidad de vida y del medio ambiente.<br><br>
+Puedes ver la autorización de manejo de datos personales <a href="https://guiakmymedio.com.co/AutTrataData.pdf" target="_blank">aqu&iacute;</a><br><br>
+						</p>
+					</div>
+			</center>
+		</div>
+		<div data-role="footer" data-position="fixed">
+		  <!--<h4>Copyright 2020</h4>-->
+		</div>
+	</div>
+	<div data-role="page" id="pgIdiomas">
+		<div data-role="header"><br><!-- data-position="fixed"-->
+		  <h1 align="center">Idiomas</h1>
+		  <a onclick="traerestablecimientos('')" class="ui-btn ui-corner-all ui-btn-inline ui-mini footer-button-left ui-btn-icon-left ui-icon-power" style="top: 40%;"><div id="titulo_atras4">Atrás</div></a>
+		</div>
+		<div data-role="content">
+			<center>
+				<ul data-role="listview" data-inset="true">
+					<li>
+						<a onclick="cambiar_idioma('espanol')" id="aespanol" style="background-color: #B1B4E6;">
+							<img src="img/espanol.png" style="height:95%;width:95%">
+							<h2>Español</h2>
+							<p>Español</p>
+						</a>
+					</li>
+					<li>
+						<a onclick="cambiar_idioma('ingles')" id="aingles">
+							<img src="img/ingles.png" style="height:95%;width:95%">
+							<h2>English</h2>
+							<p>English</p>
+						</a>
+					</li>
+					<li>
+						<a onclick="cambiar_idioma('italiano')" id="aitaliano">
+							<img src="img/italiano.png" style="height:95%;width:95%">
+							<h2>Italiano</h2>
+							<p>Italiano</p>
+						</a>
+					</li>
+				</ul>
+			</center>
+		</div>
+		<div data-role="footer" data-position="fixed">
+		  <!--<h4>Copyright 2020</h4>-->
+		</div>
+	</div>
+	<div data-role="page" id="pgImagenPromo">
+		<div data-role="header"><br><!-- data-position="fixed"-->
+		  <a onclick="location.href='#pgDetalle'" class="ui-btn ui-corner-all ui-btn-inline ui-mini footer-button-left ui-btn-icon-left ui-icon-power" style="top: 40%;"><div id="titulo_atras6">Atrás</div></a>
+		</div>
+		<div data-role="content">
+			<center><br><br>
+				<img id="imagenpromoclick" style="width: 300px; height: 300px;max-width:100%;">
+				<div id="tabla_calificacion" style="display:none;align: center;" data-role="none">
+					<br><br><h4>Calificar Promoción</h4><br>
+					<input type="hidden" name="tpc_documento_calificacion" id="tpc_documento_calificacion">
+					<select name="tpc_calificacion_calificacion" id="tpc_calificacion_calificacion" class="form-control-sm" style="width:100%;" data-role="none">
+						<option value="">Seleccione....</option>
+						<option value="5">Excelente</option>
+						<option value="4">Buena</option>
+						<option value="3">Regular</option>
+						<option value="2">Mala</option>
+						<option value="1">Pesima</option>
+					</select><br>
+					<div id="resp_calificacion"></div><br><br>
+					<button style="background-color: #1E7CC2;" onclick="enviar_calificacion()"><font color="white" style="font-weight: normal;">Enviar Calificación</font></button>
+				</div>
+			</center>
+		</div>
+		<div data-role="footer" data-position="fixed">
+		  <!--<h4>Copyright 2020</h4>-->
+		</div>
+	</div>
+	<div data-role="page" id="pgRegistroInicial">
+		<div data-role="header" data-position="fixed">
+		  <h1><div id="titulo_registroinicial">Registrate</div></h1>
+		</div>
+		<div data-role="content">
+			<center>
+				<table width="100%">
+					<tr>
+						<td align="center" colspan="2"><br></td>
+					</tr>
+					<tr>
+						<td align="center" colspan="2"><h3>Únete a la comunidad de Responsabilidad Social</h3></td>
+					</tr>
+					<tr>
+						<td align="center" colspan="2"><label style="font-weight: normal;">¿Quieres estar al tanto de las promociones de nuestras marcas aliadas?</label></td>
+					</tr>
+					<tr>
+						<td align="center" colspan="2"><h5>Puedes registrate totalmente gratis</h5></td>
+					</tr>
+					<!--<tr>
+						<td align="center" colspan="2"><br>
+							<div style="border: 1px #F6F6F6 inset;background-color: #F0F0F0">
+								<center>
+									<table>
+										<tr>
+											<td align="center"><b>Conecta tu red social</b></td>
+										</tr>
+										<tr>
+											<td align="center"><a onclick="inicioconfacebook();"><img src="img/facebook.png" style="width:90%;height:40px;"></a></td>
+										</tr>
+									</table>
+								</center>
+							</div>
+						</td>
+					</tr>-->
+					<tr>
+						<td align="center" colspan="2"><br></td>
+					</tr>
+					<tr>
+						<td align="center" colspan="2"><b>Crea una cuenta con tu correo electronico</b></td>
+					</tr>
+					<tr>
+						<td align="center" colspan="2">Los campos son obligatorios</td>
+					</tr>
+					<tr>
+						<td align="left" style="width:35%;"><div id="lbnombre_registroinicial">Nombre:</div></td>
+						<td align="center" style="width:65%;"><input type="text" name="nombre_registroinicial" id="nombre_registroinicial" class="form-control" style="width:100%" data-role="none" placeholder="Nombre...."></td>
+					</tr>
+					<tr>
+						<td align="left" style="width:35%;"><div id="lbapellido_registroinicial">Apellido:</div></td>
+						<td align="center" style="width:65%;"><input type="text" name="apellido_registroinicial" id="apellido_registroinicial" class="form-control" style="width:100%" data-role="none" placeholder="Apellido...."></td>
+					</tr>
+					<tr>
+						<td align="left" style="width:35%;"><div id="lbemail_registroinicial">Email:</div></td>
+						<td align="center" style="width:65%;"><input type="email" name="correo_registroinicial" id="correo_registroinicial" class="form-control" style="width:100%" data-role="none" placeholder="Correo...."></td>
+					</tr>
+					<tr>
+						<td align="left" style="width:35%;"><div id="lbcomoentero_registroinicial">¿Como se enteró de la APP?:</div></td>
+						<td align="center" style="width:65%;">
+							<select id="comoseentero_registroinicial" class="form-control">
+								<option value="Redes Sociales">Redes Sociales</option>
+								<option value="Te lo recomendaron">Te lo recomendaron</option>
+								<option value="Por Publicidad">Por Publicidad</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td align="center" colspan="2">
+							<label for="checkaceptoterminos1" id="labelterminosycondiciones1"><input type="checkbox" data-role="none" id="checkaceptoterminos1" value="1"> Acepto los <a href="#pgPrivacidad">terminos / condiciones & trata de datos personales</a></label>
+						</td>
+					</tr>
+					<tr>
+						<td align="center" colspan="2">
+							<div id="externos_registroinicial"></div>
+						</td>
+					</tr>
+					<tr>
+						<td align="center" colspan="2">
+							<br>
+							<div id="resultado_registroinicial"></div>
+							<br>
+							<input type="submit" id="btsubmit_registroinicial" value="Enviar Mi Registro (Send)" class="btn btn-primary" style="width:100%;" data-role="none" onclick="enviaregistroinicial()">
+						</td>
+					</tr>
+					<tr>
+						<td align="center" colspan="2"><br>
+							<input type="submit" id="btsubmit_skip" value="Saltar (Skip)" class="btn btn-primary" style="width:100%;" data-role="none" onclick="omitirregistro()">
+						</td>
+					</tr>
+				</table>
+				<!--<table width="100%">
+					<tr>
+						<td align="center" colspan="2"></td>
+					</tr>
+					<tr>
+						<td align="left" style="width:35%;"><div id="lbnombre_registroinicial">Nombre:</div></td>
+						<td align="center" style="width:65%;"><input type="text" name="nombre_registroinicial" id="nombre_registroinicial" class="form-control" style="width:100%" data-role="none" placeholder="Nombre...."></td>
+					</tr>
+					<tr>
+						<td align="left" style="width:35%;"><div id="lbapellido_registroinicial">Apellido:</div></td>
+						<td align="center" style="width:65%;"><input type="text" name="apellido_registroinicial" id="apellido_registroinicial" class="form-control" style="width:100%" data-role="none" placeholder="Apellido...."></td>
+					</tr>
+					<tr>
+						<td align="left" style="width:35%;"><div id="lbprofesion_registro">Profesión:</div></td>
+						<td align="center" style="width:65%;">
+							<select name="profesion_registroinicial" id="profesion_registroinicial" class="form-control" data-role="none">
+								<option value="" selected="selected">Seleccione....</option>
+								<option value="Abogado">Abogado</option>
+								<option value="Administracion de Empresas">Administración de Empresas</option>
+								<option value="Administracion de Negocios">Administración de Negocios</option>
+								<option value="Administracion Financiera">Administración Financiera</option>
+								<option value="Bacteriología y laboratorio clínico">Bacteriología y laboratorio clínico</option>
+								<option value="Comercial">Comercial</option>
+								<option value="Contaduría">Contaduría</option>
+								<option value="Diseno grafico">Diseño grafico</option>
+								<option value="Economia">Economía</option>
+								<option value="Estadística">Estadística</option>
+								<option value="Geología">Geologia</option>
+								<option value="Ingenieria de Sistemas">Ingeniería de Sistemas</option>
+								<option value="Ingenieria de Telecomunicaciones">Ingeniería de Telecomunicaciones</option>
+								<option value="Ingenieria Electrónica">Ingeniería Electrónica</option>
+								<option value="Ingenieria Industrial">Ingenieria Industrial</option>
+								<option value="Ingeniería de Produccion">Ingeniería de Producción</option>
+								<option value="Ingeniería de Telecomunicaciones">Ingeniería de Telecomunicaciones</option>
+								<option value="Ingeniería Mecánica">Ingeniería Mecanica</option>
+								<option value="Medicina">Medicina</option>
+								<option value="Mercadeo y Ventas">Mercadeo y Ventas</option>
+								<option value="Quimica Farmaceutica">Química Farmacéutica</option>
+								<option value="Otro">Otro</option>
+								<option value="Psicologia">Psicologia</option>
+								<option value="Tecnico en gestion empresarial">Técnico en gestión empresarial</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td align="left" style="width:35%;"><div id="lbcorreo_registroinicial">Correo:</div></td>
+						<td align="center" style="width:65%;"><input type="email" name="correo_registroinicial" id="correo_registroinicial" class="form-control" style="width:100%" data-role="none" placeholder="Correo...."></td>
+					</tr>
+					<tr>
+						<td align="left" style="width:35%;"><div id="lbgenero_registroinicial">Genero:</div></td>
+						<td align="center" style="width:65%;">
+							<select name="genero_registroinicial" id="genero_registroinicial" class="form-control" data-role="none">
+								<option value="" selected="selected">Seleccione....</option>
+								<option value="Masculino">Masculino</option>
+								<option value="Femenino">Femenino</option>
+								<option value="Otro">Otro</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td align="left" style="width:35%;"><div id="lbnacimiento_registroinicial">Fecha Nacimiento:</div></td>
+						<td align="center" style="width:65%;"><input type="date" name="fechanacimiento_registroinicial" id="fechanacimiento_registroinicial" class="form-control" style="width:100%" data-role="none" placeholder="Fecha Nacimiento...."></td>
+					</tr>
+					<tr>
+						<td align="center" colspan="2">
+							<div id="externos_registroinicial"></div>
+						</td>
+					</tr>
+					<tr>
+						<td align="center" colspan="2">
+							<label for="checkaceptoterminos1" id="labelterminosycondiciones1"><input type="checkbox" data-role="none" id="checkaceptoterminos1" value="1"> Acepto los <a href="#pgPrivacidad">terminos y condiciones</a></label>
+						</td>
+					</tr>
+					<tr>
+						<td align="center" colspan="2">
+							<br>
+							<div id="resultado_registroinicial"></div>
+							<br>
+							<input type="submit" id="btsubmit_registroinicial" value="Enviar Mi Registro" class="btn btn-primary" style="width:100%;" data-role="none" onclick="enviaregistroinicial()">
+						</td>
+					</tr>
+				</table>-->
+			</center>
+		</div>
+		<div data-role="footer" data-position="fixed">
+		  <h4>Copyright 2020</h4>
+		</div>
+	</div>
+  </body>
+</html>
+<script>
+document.getElementById("divisioninicio").style.backgroundImage = "url('https://www.guiakmymedio.com.co/webservice_app/splash_icon_.jpg?" + Math.random() + "')";
+//*******************************
+	function iniciarapp(){
+		var registroinicialvalor = window.localStorage.getItem("registroinicial");//SABER SI YA SE HIZO UN REGISTRO INICIAL, SI ES ASI SE VA DIRECTO A LA PANTALLA PRINCIPAL, SINO, SE VA A LA PAGINA DE REGISTRO
+		if(registroinicialvalor == '' || registroinicialvalor == null){
+			/*document.getElementById("externos_registroinicial").innerHTML = '';
+			var xmlhttp;
+			xmlhttp=new XMLHttpRequest();
+			xmlhttp.open("GET",ruta + "/webservice_new.php?opc=9&idioma_global=" + idioma_global,false);
+			xmlhttp.onreadystatechange=function()
+			{
+				if (xmlhttp.readyState==4 && xmlhttp.status==200)
+				{
+					document.getElementById("externos_registroinicial").innerHTML = xmlhttp.responseText;
+				}
+			}
+			xmlhttp.send(null);*/
+			setTimeout("location.href='#pgRegistroInicial';",1);
+		}else{
+			setTimeout("onLoad()",1);//AL INICIAR LA APP, A LOS 3 SEGUNDOS SE VA A LA PANTALLA PRINCIPAL
+		}
+	}
+//*******************************
+$("#__vtigerWebForm input[type=submit]").click(function() {
+	var lastname = document.getElementById("lastname").value;
+	var homephone = document.getElementById("homephone").value;
+	var mobile = document.getElementById("mobile").value;
+	var email = document.getElementById("email").value;
+	var cf_856 = document.getElementById("cf_856").value;
+	var cf_910 = document.getElementById("cf_910").value;
+	var cf_862 = document.getElementById("cf_862").value;
+	var cf_864 = document.getElementById("cf_864").value;
+	var mailingstreet = document.getElementById("mailingstreet").value;
+	var cf_866 = document.getElementById("cf_866").value;
+	if(lastname != '' && homephone != '' && mobile != '' && email != '' && cf_856 != '' && cf_862 != '' && cf_864 != '' && mailingstreet != '' && cf_866 != '' && cf_910 != ''){
+		var fileSize = document.getElementById("idFiles").files[0].size;
+		if(fileSize > 1000000){
+			alert("El archivo no debe superar 1MB");
+			document.getElementById("idFiles").value = '';
+			return false;
+		}else{
+		
+			//checkaceptoterminos
+			if(document.getElementById("checkaceptoterminos").checked == true){
+				document.getElementById("resulatado_registro").innerHTML = '<center><font color="#848484"><img src="img/cargando.gif" style="height:50px;width:50px;"><br>Espera un momento, estamos enviando tu petición</font></center>';
+				setTimeout(function()
+				{
+					var data=getFiles("idFiles");
+					data=getFormData("__vtigerWebForm",data);
+					$.ajax({
+						url:ruta+"/webservice_new.php",
+						type:"POST",
+						data:data,
+						dataType:"json",
+						contentType:false,
+						processData:false,
+						cache:false
+					}).done(function(data){
+						if(data.ok==1){
+							alert(data.message);
+							document.getElementById("idFiles").value = '';
+							document.getElementById("lastname").value = '';
+							document.getElementById("homephone").value = '';
+							document.getElementById("mobile").value = '';
+							document.getElementById("email").value = '';
+							document.getElementById("mailingstreet").value = '';
+							document.getElementById("cf_866").value = '';
+							document.getElementById("resulatado_registro").innerHTML = '';
+							traerestablecimientos('');
+						}else{
+							alert("Ha habido algun error\n\n"+data.message);
+							document.getElementById("resulatado_registro").innerHTML = '';
+						}
+					}).fail(function(data){
+					  alert("Verifica tu internet");
+					  document.getElementById("resulatado_registro").innerHTML = '';
+					});
+				}, 500);
+			}else{
+				alert("Debes aceptar los terminos y condiciones.");
+			}
+		}
+	}else{
+		alert("No puede haber ningun campo vacio, revisalos");
+	}
+	return false;
+});
+/**
+ * Funci�n que pone el archivo en un FormData
+ * @return FormData
+ */
+ function inicioconfacebook(){
+	var fbLoginSuccess = function (userData) {
+	  console.log("UserInfo: ", userData);
+	}
+
+	facebookConnectPlugin.login(["public_profile"], fbLoginSuccess,
+	  function loginError (error) {
+		console.error(error);
+	  }
+	);
+ }
+function getFiles(idDeFile)
+{
+	var idFiles=document.getElementById(idDeFile);
+	// Obtenemos el listado de archivos en un array
+	var archivos=idFiles.files;
+	// Creamos un objeto FormData, que nos permitira enviar un formulario
+	// Este objeto, ya tiene la propiedad multipart/form-data
+	var data=new FormData();
+	// Recorremos todo el array de archivos y lo vamos a�adiendo all
+	// objeto data
+	for(var i=0;i<archivos.length;i++)
+	{
+		// Al objeto data, le pasamos clave,valor
+		data.append("archivo"+i,archivos[i]);
+	}
+	return data;
+}
+ 
+/**
+ * Funci�n que recorre todo el formulario para apadir en el FormData los valores del formulario
+ * @param string id hace referencia al id del formulario
+ * @param FormData data hace referencia al FormData
+ * @return FormData
+ */
+function getFormData(id,data)
+{
+	$("#"+id).find("input,select").each(function(i,v) {
+        if(v.type!=="file") {
+            if(v.type==="checkbox" && v.checked===true) {
+                data.append(v.name,"on");
+            }else{
+                data.append(v.name,v.value);
+            }
+        }
+	});
+	return data;
+}
+</script>

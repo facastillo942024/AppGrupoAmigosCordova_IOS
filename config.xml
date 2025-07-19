@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.guiakmymedio.org" version="1.0.6" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Wipii</name>
+    <description>
+        Nuestra novedosa aplicación Wipii
+    </description>
+    <author email="dev@cordova.apache.org" href="http://cordova.io">
+        Wipii Tema
+    </author>
+    <content src="index.html" />
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-navigation href="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+    <platform name="android">
+        <allow-intent href="market:*" />
+    </platform>
+    <platform name="ios">
+        <allow-intent href="itms:*" />
+        <allow-intent href="itms-apps:*" />
+
+        <icon density="ldpi" height="57" src="www/img/logo.png" width="57" />
+        <icon density="mdpi" height="57" src="www/img/logo.png" width="57" />
+        <icon density="hdpi" height="60" src="www/img/logo.png" width="60" />
+        <icon density="xhdpi" height="60" src="www/img/logo.png" width="60" />
+        <icon density="xxhdpi" height="60" src="www/img/logo.png" width="60" />
+        <icon density="xxxhdpi" height="60" src="www/img/logo.png" width="60" />
+    </platform>
+    <config-file parent="NSCameraUsageDescription" platform="ios" target="*-Info.plist">
+        <string>Deseamos acceso a la camara para poder tomar una foto de tu local.</string>
+    </config-file>
+    <edit-config file="*-Info.plist" mode="merge" platform="ios" target="NSLocationWhenInUseUsageDescription">
+        <string>Deseamos saber tu ubicación para sugerirte los establecimientos más cercanos a ti y brindarte una mejor experiencia.</string>
+    </edit-config>
+</widget>
