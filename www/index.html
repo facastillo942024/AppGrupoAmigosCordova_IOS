@@ -247,15 +247,21 @@
 						document.getElementById("division_estadisticas").innerHTML = '<center><font color="#848484"><img src="img/cargando.gif" style="height:50px;width:50px;"><br>Per favore aspetta, stiamo consultando gli stabilimenti vicino a te....</font></center>';
 					  }
 					  //*************************
-					  var xmlhttp;
-					  xmlhttp = new XMLHttpRequest();
-					  xmlhttp.open("GET", ruta + "/webservice_appv2.php?opc=20&idioma_global=" + idioma_global + "&id_registroinicial=" + window.localStorage.getItem("id_registroinicial"), false);
-					  xmlhttp.onreadystatechange = function () {
-						if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-							document.getElementById("division_estadisticas").innerHTML = xmlhttp.responseText;
-						}
-					  }
-					  xmlhttp.send(null);
+						$.ajax({
+							type:"GET",
+							url:ruta + "/webservice_appv2.php?opc=20&idioma_global=" + idioma_global + "&id_registroinicial=" + window.localStorage.getItem("id_registroinicial"),
+							success: function(data){
+								document.getElementById("division_estadisticas").innerHTML = data;
+								/*$('.carousel').carousel({
+								  interval: 6000,
+								  pause: "false"
+								});*/
+							},
+							error: function(){
+								alert("ERROR: Verifica tu conexi�n a internet");
+								return;
+							}
+						});
 				break;
 				case '#pgMisPedidos':
 					//IDIOMA DE DIVISION ==>
@@ -268,16 +274,23 @@
 					  if (idioma_global == 'italiano') {
 						document.getElementById("division_mispedidos").innerHTML = '<center><font color="#848484"><img src="img/cargando.gif" style="height:50px;width:50px;"><br>Per favore aspetta, stiamo consultando gli stabilimenti vicino a te....</font></center>';
 					  }
-					  //*************************
-					  var xmlhttp;
-					  xmlhttp = new XMLHttpRequest();
-					  xmlhttp.open("GET", ruta + "/webservice_appv2.php?opc=21&idioma_global=" + idioma_global + "&id_registroinicial=" + window.localStorage.getItem("id_registroinicial"), false);
-					  xmlhttp.onreadystatechange = function () {
-						if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-							document.getElementById("division_mispedidos").innerHTML = xmlhttp.responseText;
-						}
-					  }
-					  xmlhttp.send(null);
+					  //*************************					  
+					  $.ajax({
+							type:"GET",
+							url:ruta + "/webservice_appv2.php?opc=21&idioma_global=" + idioma_global + "&id_registroinicial=" + window.localStorage.getItem("id_registroinicial"),
+							success: function(data){
+								document.getElementById("division_mispedidos").innerHTML = data;
+								/*
+								$('.carousel').carousel({
+								  interval: 6000,
+								  pause: "false"
+								});*/
+							},
+							error: function(){
+								alert("ERROR: Verifica tu conexi�n a internet");
+								return;
+							}
+						});
 				break;
 			  }
             }
@@ -1390,31 +1403,52 @@
               //****************************************
               setTimeout(function () {
                 $.ajax({
-			type:"GET",
-			url:ruta + "/webservice_appv2.php?opc=19&idioma_global=" + idioma_global + "&tpc_codigo_usuario=" + tpc_codigo_usuario,
-			success: function(data){
-				if (data != '') {
-				  document.getElementById("opcionespromoaliados").innerHTML = data;
-				} else {
-					  //MOSTRAR MENSAJE DE ESPERA EN LA DIVISION
-					  if (idioma_global == 'espanol') {
-						document.getElementById("opcionespromoaliados").innerHTML = '<center><table><tr><td align="center"><img src="img/app_logo.png" width="40" height="40"><br><font color="white">Lo sentimos, no hay promociones</font></td></tr></table></center>';
-					  }
-					  if (idioma_global == 'ingles') {
-						document.getElementById("opcionespromoaliados").innerHTML = '<center><table><tr><td align="center"><img src="img/app_logo.png" width="40" height="40"><br><font color="white">Sorry, no promotions</font></td></tr></table></center>';
-					  }
-					  if (idioma_global == 'italiano') {
-						document.getElementById("opcionespromoaliados").innerHTML = '<center><table><tr><td align="center"><img src="img/app_logo.png" width="40" height="40"><br><font color="white">Siamo spiacenti, nessuna promozione</font></td></tr></table></center>';
-					  }
-					  //****************************************
-				}
-			},
-			error: function(){
-				alert("ERROR: Verifica tu conexi�n a internet");
-			}
-		});
+					type:"GET",
+					url:ruta + "/webservice_appv2.php?opc=19&idioma_global=" + idioma_global + "&tpc_codigo_usuario=" + tpc_codigo_usuario,
+					success: function(data){
+						if (data != '') {
+						  document.getElementById("opcionespromoaliados").innerHTML = data;
+						} else {
+							  //MOSTRAR MENSAJE DE ESPERA EN LA DIVISION
+							  if (idioma_global == 'espanol') {
+								document.getElementById("opcionespromoaliados").innerHTML = '<center><table><tr><td align="center"><img src="img/app_logo.png" width="40" height="40"><br><font color="white">Lo sentimos, no hay promociones</font></td></tr></table></center>';
+							  }
+							  if (idioma_global == 'ingles') {
+								document.getElementById("opcionespromoaliados").innerHTML = '<center><table><tr><td align="center"><img src="img/app_logo.png" width="40" height="40"><br><font color="white">Sorry, no promotions</font></td></tr></table></center>';
+							  }
+							  if (idioma_global == 'italiano') {
+								document.getElementById("opcionespromoaliados").innerHTML = '<center><table><tr><td align="center"><img src="img/app_logo.png" width="40" height="40"><br><font color="white">Siamo spiacenti, nessuna promozione</font></td></tr></table></center>';
+							  }
+							  //****************************************
+						}
+					},
+					error: function(){
+						alert("ERROR: Verifica tu conexi�n a internet");
+					}
+				});
               }, 500);
             }
+			function calificacion_estab(tpc_usuario_usuariodetalle, tpc_codigo_establecimiento = ''){
+				var adicionalurl = "";
+				xmlhttp = new XMLHttpRequest();
+				if(tpc_codigo_establecimiento != ''){adicionalurl += "&tpc_codigo_establecimiento=" + tpc_codigo_establecimiento;}
+				
+				$.ajax({
+					type:"GET",
+					url:ruta + "/webservice_appv2.php?opc=22&idioma_global=" + idioma_global + "&id_registroinicial=" + window.localStorage.getItem("id_registroinicial") + "&tpc_usuario_usuariodetalle=" + tpc_usuario_usuariodetalle + adicionalurl,
+					success: function(data){
+						if (data != '') {
+						  document.getElementById("opcionespromoaliados").innerHTML = data;
+						  window.open(data, "_blank");
+						}
+					},
+					error: function(){
+						alert("ERROR: Verifica tu conexi�n a internet");
+					}
+				});
+				
+				xmlhttp.send(null);
+			}
           </script>
           <!DOCTYPE html>
           <html lang="en">
