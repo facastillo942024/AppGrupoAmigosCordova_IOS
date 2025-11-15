@@ -44,7 +44,7 @@
             var ruta = "https://www.guiakmymedio.com.co/webservice_app";
             var defaultPos = new google.maps.LatLng(4.710427, -74.070653);
             var globalrespuesta = ''; var latitud = ''; var longitud = '';
-			var idioma_global = 'espanol';
+			      var idioma_global = 'espanol';
             //VARIABLES PUBLICAS MODAL CALIFICACION ==>
             var sipedidoactivo = 0;//0=NO SE HA HECHO PEDIDO, 1=SE ESTA ESPERANDO LA HORA PARA MOSTRAT MODAL
             var fechapedido = "";
@@ -67,8 +67,8 @@
             month[10] = "11";
             month[11] = "12";
             var calificacionModal = 0; var tpc_codigo_establecimiento_calificacion;
-			var tpc_codigo_establecimiento_modal;
-			var tpc_contadorpedido_establecimiento_pedidos;//PARA CALIFICACION
+            var tpc_codigo_establecimiento_modal;
+            var tpc_contadorpedido_establecimiento_pedidos;//PARA CALIFICACION
             //****************************************
             if (window.localStorage.getItem("sipedidoactivo") != '' && window.localStorage.getItem("sipedidoactivo") != null) {
               sipedidoactivo = parseInt(window.localStorage.getItem("sipedidoactivo"));
@@ -131,10 +131,10 @@
               var contrasena_registroinicial = document.getElementById("contrasena_registroinicial").value;
               var rep_contrasena_registroinicial = document.getElementById("rep_contrasena_registroinicial").value;
 			  
-			  var celular_registroinicial = document.getElementById("celular_registroinicial").value;
-			  var departamento_registroinicial = document.getElementById("departamento_registroinicial").value;
-			  var ciudad_registroinicial = document.getElementById("ciudad_registroinicial").value;
-			  var fechanacimiento_registroinicial = document.getElementById("fechanacimiento_registroinicial").value;
+              var celular_registroinicial = document.getElementById("celular_registroinicial").value;
+              var departamento_registroinicial = document.getElementById("departamento_registroinicial").value;
+              var ciudad_registroinicial = document.getElementById("ciudad_registroinicial").value;
+              var fechanacimiento_registroinicial = document.getElementById("fechanacimiento_registroinicial").value;
               if (nombre_registroinicial == '' || apellido_registroinicial == '' || correo_registroinicial == '' || contrasena_registroinicial == '' || rep_contrasena_registroinicial == '') {// || profesion_registroinicial == '' || genero_registroinicial == '' || fechanacimiento_registroinicial == '' || pais_registroinicial == '' || departamento_registroinicial == '' || ciudad_registroinicial == '' || celular_registroinicial == '' ||
                 swal({
                   title: '',
@@ -1600,11 +1600,17 @@
         </head>
 
         <body>
-          <!-- <div data-role="page" data-theme="b" id="divisioninicio" onclick="iniciarapp()" style="background: #FFFFFF; background-position: center center; background-repeat: no-repeat; background-attachment: fixed; background-size: 100% 100%;" id="pgLoading" data_ajax="false" data-dom-cache="false">
-              
-              style="background: #FFFFFF url('https://www.guiakmymedio.com.co/webservice_app/splash_icon_.jpg'); background-position: center center; background-repeat: no-repeat; background-attachment: fixed; background-size: 100% 100%;"
-              style="background: #FFFFFF url(https://www.fundaciongrupoamigos.com/webservice_app/splash_icon_.jpg);background-position: center center; background-repeat: no-repeat; background-attachment: fixed; background-size: 100% 100%;" 
-            </div>-->
+          <!--IMAGEN DE CARGA-->
+          <div data-role="page" data-theme="b" id="divisioninicio"
+              style="background-position:center center;
+                      background-repeat:no-repeat;
+                      background-attachment:fixed;
+                      background-size:100% 100%;"
+              id="pgLoading"
+              data_ajax="false"
+              data-dom-cache="false">
+          </div>
+          <!--FIN IMAGEN DE CARGA-->
           <div id="modal_detalle_promocion" class="modal" data-role="none">
             <div class="modal-contenido" style="border-radius: 15px 15px 15px 15px;">
               <a onclick="javascript:history.back()" style="text-decoration: none;align: right">
@@ -3329,25 +3335,32 @@ Si usted desea mayor informaci&oacute;n sobre el manejo de sus datos personales 
 
         </html>
 		<script type="text/javascript" src="js/banner.js"></script>
-        <script>
-			iniciarapp();
-			if (window.localStorage.getItem("idioma_global") != '' && window.localStorage.getItem("idioma_global") != null) {
-              idioma_global = window.localStorage.getItem("idioma_global");
-			  cambiar_idioma(idioma_global);
-            }
-          //document.getElementById("divisioninicio").style.backgroundImage = "url('https://www.guiakmymedio.com.co/webservice_app/splash_icon_.jpg?" + Math.random() + "')";
-          //*******************************
-          //banner1();
-          function iniciarapp() {
-            var registroinicialvalor = window.localStorage.getItem("registroinicial");//SABER SI YA SE HIZO UN REGISTRO INICIAL, SI ES ASI SE VA DIRECTO A LA PANTALLA PRINCIPAL, SINO, SE VA A LA PAGINA DE REGISTRO
-            if (registroinicialvalor == '' || registroinicialvalor == null) {
-              setTimeout("location.href='#pgCualSoy';", 1);//
-            } else {
-              obtener_latitudlongitud();
-			  traer_banners_principal();
-              asignarnombre_menu(registroinicialvalor);
-              location.href = '#PgCategorias';
-            }
+    <script>
+      //CARGAR IMAGEN DINAMICAMENTE EN IMAGEN DE INICIO =>
+      const div = document.getElementById("divisioninicio");
+      const ts = Date.now(); // Timestamp dinámico
+      const url = "https://www.guiakmymedio.com.co/webservice_app/splash_icon_.jpg?ts=" + ts;
+
+      div.style.background = `#FFFFFF url('${url}') center center no-repeat fixed`;
+      div.style.backgroundSize = "100% 100%";
+      ////////////////////////////////////////////////////
+      location.href="#divisioninicio";
+      setTimeout(function () {
+        iniciarapp();
+        if (window.localStorage.getItem("idioma_global") != '' && window.localStorage.getItem("idioma_global") != null) {
+          idioma_global = window.localStorage.getItem("idioma_global");
+          cambiar_idioma(idioma_global);
+        }
+        function iniciarapp() {
+          var registroinicialvalor = window.localStorage.getItem("registroinicial");//SABER SI YA SE HIZO UN REGISTRO INICIAL, SI ES ASI SE VA DIRECTO A LA PANTALLA PRINCIPAL, SINO, SE VA A LA PAGINA DE REGISTRO
+          if (registroinicialvalor == '' || registroinicialvalor == null) {
+            setTimeout("location.href='#pgCualSoy';", 1);//
+          } else {
+            obtener_latitudlongitud();
+            traer_banners_principal();
+            asignarnombre_menu(registroinicialvalor);
+            location.href = '#PgCategorias';
           }
-        //*******************************
-        </script>
+        }
+      }, 3000);
+    </script>
